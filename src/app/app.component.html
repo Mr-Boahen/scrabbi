@@ -110,7 +110,7 @@
 
         class="absolute z-20 flex flex-col w-[100%] gap-16 h-[100%] items-center justify-end pb-10 sm:pb-16"
       >
-        <div (click)="submitWord()" class="cursor-pointer w-full flex items-center justify-center">
+        <div  (click)="submitWord()" class="cursor-pointer w-full flex items-center justify-center">
           <h1
             class="cursor-pointer text-xl font-jetbrains border-4 border-purple-800 rounded-lg px-16 py-1 text-purple-500 font-bold hover:bg-purple-950 active:scale-105 transition-all duration-100 ease-in-out"
           >
@@ -120,10 +120,10 @@
 
         <div class="flex flex-wrap justify-center gap-5">
           <div *ngFor="let randomTile of randomTiles; index as i"
-            (click)="onTileClick($event)"
-            [ngClass]="{'relative':true,'grid':true, 'cursor-pointer':true,'place-items-center':true,'h-14':true,'w-14':true,'md:h-16':true,'md:min-w-16':true,'border-4':true,'border-purple-950':selectedLetters.includes(randomTile),'border-purple-900':!selectedLetters.includes(randomTile),'rounded-[10px]':true,'active:scale-105':!selectedLetters.includes(randomTile),'transition-all':true,'duration-100':true,'ease-in-out':true,}"
+            (click)="onTileClick($event,i)"
+            [ngClass]="{'relative':true,'grid':true, 'cursor-pointer':true,'place-items-center':true,'h-14':true,'w-14':true,'md:h-16':true,'md:min-w-16':true,'border-4':true,'border-purple-950':selectedLetterIndex.includes(i),'border-purple-900':!selectedLetterIndex.includes(i),'rounded-[10px]':true,'active:scale-105':!selectedLetterIndex.includes(i),'transition-all':true,'duration-100':true,'ease-in-out':true,}"
           >
-          <h1 [ngClass]="{'text-purple-900': selectedLetters.includes(randomTile), 'text-purple-500': !selectedLetters.includes(randomTile), 'text-3xl': true, 'font-jetbrains': true, 'font-[800]': true}">
+          <h1 [ngClass]="{'text-purple-900': selectedLetterIndex.includes(i), 'text-purple-500':!selectedLetterIndex.includes(i), 'text-3xl': true, 'font-jetbrains': true, 'font-[800]': true}">
             {{ randomTile }}
           </h1>
           </div>

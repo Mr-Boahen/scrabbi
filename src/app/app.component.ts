@@ -16,9 +16,10 @@ import { KeyObject } from 'crypto';
 export class AppComponent {
   title = 'scrabbi';
   faShuffle = faShuffle;
+  selectedLetterIndex:number[]=[];
   @Input() selectedLetters: string[] = [];
   tileHasBeenClicked: boolean = false;
-  randomTiles: string[] = ['A', 'B', 'C', 'A', 'E', 'F', 'G'];
+  randomTiles: string[] = ['A', 'B', 'C', 'A', 'E', 'F', 'A'];
   submittedWords: string[][] = [];
   letterCount: { [key: string]: number } = this.randomTiles.reduce(
     (acc: { [key: string]: number }, current) => {
@@ -27,7 +28,7 @@ export class AppComponent {
     },
     {}
   );
-
+  
   //countDown Variables
   countDown: number = 30;
   setIntervalID: any;
@@ -46,6 +47,9 @@ export class AppComponent {
   }
 
   shuffleTiles() {
+    //Needed to clear the selectedTiles to make the shuffling sensible
+    this.selectedLetters=[];
+    this.selectedLetterIndex=[];
     //Using the Fisher-Yates Algorithm to shuffle the array
     for (let i = this.randomTiles.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -67,8 +71,17 @@ export class AppComponent {
   ) {
    
     const key = event.key.toUpperCase();
+    const tileIndex=this.randomTiles.indexOf(key);
+    const allIndexOfOccurence=this.randomTiles.reduce((acc:number[],current,index)=>{
+      current==key && acc.push(index);
+      
+      return acc},[])
+ 
     if (event.key == 'Backspace') {
       this.selectedLetters.pop();
+    }
+    if (event.key == 'Enter') {
+      this.submitWord()
     }
 
     if (this.randomTiles.includes(key) && this.letterCount[key] != 0) {
@@ -76,15 +89,17 @@ export class AppComponent {
       if (this.selectedLetters.length == 0 && this.countDown == 30) {
         this.startCountdown();
       }
-      
+       
+        this.selectedLetterIndex.push(allIndexOfOccurence[allIndexOfOccurence.length-this.letterCount[key]])
         this.selectedLetters.push(key);
         this.letterCount[key] = this.letterCount[key] - 1;
       
     }
   }
   //This an input method which allows a user to select tiles by clicking on it
-  onTileClick(event: any) {
+  onTileClick(event: any,i:number) {
     //Starts the CountDown when a Tile is selected
+  
     if (this.selectedLetters.length == 0 && this.countDown == 30) {
       this.startCountdown();
     }
@@ -101,7 +116,9 @@ export class AppComponent {
         !event.target.classList.contains('border-purple-950')
       ) {
         //THIS ADDS THE SELECTED TILE TO AN ARRAY
+    this.selectedLetterIndex.push(i);
         this.selectedLetters?.push(event.target.innerText);
+      
         //THIS DEACTIVATES THE TILES WHEN CLICKED
         event.target.classList.remove('border-purple-900');
         event.target.classList.add('border-purple-950');
@@ -135,6 +152,7 @@ export class AppComponent {
     if (this.selectedLetters.length != 0) {
       this.submittedWords.push(this.selectedLetters);
       this.selectedLetters = [];
+      this.selectedLetterIndex=[];
     }
   }
 }
