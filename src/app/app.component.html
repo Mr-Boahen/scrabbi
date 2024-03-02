@@ -21,13 +21,21 @@
           ></fa-icon>
         </div>
         <div
-       
-          [ngClass]="{'grid':true,'animate-pulse':countDown<=5,'place-items-center':true,'w-28':true,'h-14':true,'border-2':true,'border-violet-700':true,'rounded-full':true}"
+          [ngClass]="{
+            'grid': true,
+            'animate-pulse': countDown <= 5,
+            'place-items-center': true,
+            'w-28': true,
+            'h-14': true,
+            'border-2': true,
+            'border-violet-700': true,
+            'rounded-full': true
+          }"
         >
-          <h1 
-          [ngClass]="{'text-red-500':countDown<=5,'text-purple-500':countDown>=6,'text-2xl':true,'font-jetbrains':true,'font-[900]':true,}"
-         >
-            00:{{countDown}}
+          <h1
+            [ngClass]="{'text-red-500':countDown<=5,'text-purple-500':countDown>=6,'text-2xl':true,'font-jetbrains':true,'font-[900]':true,}"
+          >
+            00:{{ countDown }}
           </h1>
         </div>
       </div>
@@ -36,7 +44,7 @@
       >
         <div class="text-purple-500 bg-black/15 w-fit py-2 px-5 rounded-lg">
           <h1 class="text-xl font-bold font-jetbrains">
-            Words: <span>{{submittedWords.length}}</span>
+            Words: <span>{{ submittedWords.length }}</span>
           </h1>
           <h1 class="text-xl font-bold font-jetbrains">
             Score: <span>500</span>
@@ -44,18 +52,18 @@
         </div>
         <div
           *ngIf="selectedLetters"
-          class=" flex justify-center gap-1 mt-10 w-[100%]"
-         >
+          class="flex justify-center gap-1 mt-10 w-[100%]"
+        >
           <div
             (click)="removeSelectedTiles(0)"
-            class="cursor-pointer grid  place-items-center h-14 w-14 md:h-16 md:min-w-16 border-4 border-purple-900 rounded-[10px] active:scale-105 transition-all duration-100 ease-in-out"
+            class="cursor-pointer grid place-items-center h-14 w-14 md:h-16 md:min-w-16 border-4 border-purple-900 rounded-[10px] active:scale-105 transition-all duration-100 ease-in-out"
           >
             <h1 class="text-purple-500 text-3xl font-jetbrains font-[800]">
               {{ selectedLetters[0] }}
             </h1>
           </div>
           <div
-          (click)="removeSelectedTiles(1)"
+            (click)="removeSelectedTiles(1)"
             class="cursor-pointer grid place-items-center h-14 w-14 md:h-16 md:min-w-16 border-4 border-purple-900 rounded-[10px] active:scale-105 transition-all duration-100 ease-in-out"
           >
             <h1 class="text-purple-500 text-3xl font-jetbrains font-[800]">
@@ -63,7 +71,7 @@
             </h1>
           </div>
           <div
-          (click)="removeSelectedTiles(2)"
+            (click)="removeSelectedTiles(2)"
             class="cursor-pointer grid place-items-center h-14 w-14 md:h-16 md:min-w-16 border-4 border-purple-900 rounded-[10px] active:scale-105 transition-all duration-100 ease-in-out"
           >
             <h1 class="text-purple-500 text-3xl font-jetbrains font-[800]">
@@ -72,7 +80,7 @@
           </div>
 
           <div
-          (click)="removeSelectedTiles(3)"
+            (click)="removeSelectedTiles(3)"
             class="cursor-pointer grid place-items-center h-14 w-14 md:h-16 md:min-w-16 border-4 border-purple-900 rounded-[10px] active:scale-105 transition-all duration-100 ease-in-out"
           >
             <h1 class="text-purple-500 text-3xl font-jetbrains font-[800]">
@@ -80,7 +88,7 @@
             </h1>
           </div>
           <div
-          (click)="removeSelectedTiles(4)"
+            (click)="removeSelectedTiles(4)"
             class="cursor-pointer grid place-items-center h-14 w-14 md:h-16 md:min-w-16 border-4 border-purple-900 rounded-[10px] active:scale-105 transition-all duration-100 ease-in-out"
           >
             <h1 class="text-purple-500 text-3xl font-jetbrains font-[800]">
@@ -88,7 +96,7 @@
             </h1>
           </div>
           <div
-          (click)="removeSelectedTiles(5)"
+            (click)="removeSelectedTiles(5)"
             class="cursor-pointer grid place-items-center h-14 w-14 md:h-16 md:min-w-16 border-4 border-purple-900 rounded-[10px] active:scale-105 transition-all duration-100 ease-in-out"
           >
             <h1 class="text-purple-500 text-3xl font-jetbrains font-[800]">
@@ -96,7 +104,7 @@
             </h1>
           </div>
           <div
-          (click)="removeSelectedTiles(6)"
+            (click)="removeSelectedTiles(6)"
             class="cursor-pointer grid place-items-center h-14 w-14 md:h-16 md:min-w-16 border-4 border-purple-900 rounded-[10px] active:scale-105 transition-all duration-100 ease-in-out"
           >
             <h1 class="text-purple-500 text-3xl font-jetbrains font-[800]">
@@ -107,32 +115,59 @@
       </div>
 
       <div
-
         class="absolute z-20 flex flex-col w-[100%] gap-16 h-[100%] items-center justify-end pb-10 sm:pb-16"
       >
-        <div  (click)="submitWord()" class="cursor-pointer w-full flex items-center justify-center">
+        <div
+          (click)="submitWord()"
+          class="cursor-pointer w-full flex items-center justify-center"
+        >
+          <!--             class="cursor-pointer text-xl font-jetbrains border-4 border-purple-800 rounded-lg px-16 py-1 text-purple-500 font-bold hover:bg-purple-950 active:scale-105 transition-all duration-100 ease-in-out"
+ -->
           <h1
-            class="cursor-pointer text-xl font-jetbrains border-4 border-purple-800 rounded-lg px-16 py-1 text-purple-500 font-bold hover:bg-purple-950 active:scale-105 transition-all duration-100 ease-in-out"
+            [ngClass]="{
+              'cursor-pointer': selectedLetters.length != 0,
+              'cursor-not-allowed': selectedLetters.length == 0,
+              'text-xl': true,
+              'font-jetbrains': true,
+              'border-4': true,
+              'border-purple-800': true,
+              'border-purple-950': selectedLetters.length == 0,
+              'rounded-lg': true,
+              'px-16': true,
+              'py-1': true,
+              'text-purple-500': selectedLetters.length != 0,
+              'text-purple-900': selectedLetters.length == 0,
+              'font-bold': true,
+              'hover:bg-purple-950': selectedLetters.length != 0,
+              'active:scale-105': true,
+              'transition-all': true,
+              'duration-100': true,
+              'ease-in-out': true
+            }"
           >
-            Enter
+            ENTER
           </h1>
         </div>
 
         <div class="flex flex-wrap justify-center gap-5">
-          <div *ngFor="let randomTile of randomTiles; index as i"
-            (click)="onTileClick($event,i)"
-            [ngClass]="{'relative':true,'grid':true, 'cursor-pointer':true,'place-items-center':true,'h-14':true,'w-14':true,'md:h-16':true,'md:min-w-16':true,'border-4':true,'border-purple-950':selectedLetterIndex.includes(i),'border-purple-900':!selectedLetterIndex.includes(i),'rounded-[10px]':true,'active:scale-105':!selectedLetterIndex.includes(i),'transition-all':true,'duration-100':true,'ease-in-out':true,}"
+          <div
+            *ngFor="let randomTile of randomTiles; index as i"
+            (click)="onTileClick($event, i)"
+            [ngClass]="{'relative':true,'grid':true, 'cursor-pointer':true,'place-items-center':true,'h-14':true,'w-14':true,'md:h-16':true,'md:min-w-16':true,'border-4':true,'border-purple-950':selectedLetterIndex.includes(i)||countDown==0 ,'border-purple-900':!selectedLetterIndex.includes(i),'rounded-[10px]':true,'active:scale-105':!selectedLetterIndex.includes(i),'transition-all':true,'duration-100':true,'ease-in-out':true,}"
           >
-          <h1 [ngClass]="{'text-purple-900': selectedLetterIndex.includes(i), 'text-purple-500':!selectedLetterIndex.includes(i), 'text-3xl': true, 'font-jetbrains': true, 'font-[800]': true}">
-            {{ randomTile }}
-          </h1>
+            <h1
+              [ngClass]="{
+                'text-purple-900':
+                  selectedLetterIndex.includes(i) || countDown == 0,
+                'text-purple-500': !selectedLetterIndex.includes(i),
+                'text-3xl': true,
+                'font-jetbrains': true,
+                'font-[800]': true
+              }"
+            >
+              {{ randomTile }}
+            </h1>
           </div>
-          
-        
-         
-         
-         
-          
         </div>
       </div>
     </div>
