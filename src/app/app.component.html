@@ -44,10 +44,10 @@
       >
         <div class="text-purple-500 bg-black/15 w-fit py-2 px-5 rounded-lg">
           <h1 class="text-xl font-bold font-jetbrains">
-            Words: <span>{{ submittedWords.length }}</span>
+            WORDS: <span>{{ submittedWords.length }}</span>
           </h1>
           <h1 class="text-xl font-bold font-jetbrains">
-            Score: <span>500</span>
+            SCORE: <span>{{score}}</span>
           </h1>
         </div>
         <div
@@ -121,8 +121,8 @@
           (click)="submitWord()"
           class="cursor-pointer w-full flex items-center justify-center"
         >
-          <!--             class="cursor-pointer text-xl font-jetbrains border-4 border-purple-800 rounded-lg px-16 py-1 text-purple-500 font-bold hover:bg-purple-950 active:scale-105 transition-all duration-100 ease-in-out"
- -->
+     
+ 
           <h1
             [ngClass]="{
               'cursor-pointer': selectedLetters.length != 0,
