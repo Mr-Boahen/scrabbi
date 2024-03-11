@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { WordOfTheDayServiceService } from '../services/word-of-the-day-service.service';
 
@@ -12,9 +12,9 @@ import { WordOfTheDayServiceService } from '../services/word-of-the-day-service.
 })
 export class WodDialogComponent {
   public wordOfTheDay: any;
-  showWod:boolean=false;
+  showWod:boolean=true;
 
-  constructor(private WordOfTheDayService: WordOfTheDayServiceService) {}
+  constructor(private WordOfTheDayService: WordOfTheDayServiceService,private router:Router) {}
 
   ngOnInit() {
    
@@ -26,11 +26,11 @@ export class WodDialogComponent {
        this.wordOfTheDay={...this.wordOfTheDay,word:(this.wordOfTheDay.word.charAt(0).toUpperCase() +this.wordOfTheDay.word.slice(1))}
       
      })
-     this.showWod=true
+     
     }
    
   }
   closeWodModal(){
-    this.showWod=false
+    this.router.navigate([''])
   }
 }
