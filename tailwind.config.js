@@ -9,7 +9,8 @@ module.exports = {
         splinesans:["Spline Sans"],
         signika:["signika"],
         narrow:["Archivo Narrow"],
-        jetbrains:["JetBrains Mono"]
+        jetbrains:["JetBrains Mono"],
+        lora:["Lora"]
       },
       backgroundImage: {
         'radial-gradient': 'radial-gradient(circle, #8a2596, transparent)',

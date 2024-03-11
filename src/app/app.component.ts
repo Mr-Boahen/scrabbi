@@ -1,17 +1,21 @@
-import { Component, HostListener, Input } from '@angular/core';
+import { Component, HostListener, Input,OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { wordDatabase } from './wordDatabase';
+import { HttpClientModule } from '@angular/common/http';
 
+import { WodDialogComponent } from './wod-dialog/wod-dialog.component';
 import { faShuffle } from '@fortawesome/free-solid-svg-icons';
-import { KeyObject } from 'crypto';
+
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, FontAwesomeModule, CommonModule],
+  imports: [RouterOutlet, FontAwesomeModule, CommonModule, HttpClientModule,WodDialogComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
+ 
 })
 export class AppComponent {
   title = 'scrabbi';
@@ -21,118 +25,8 @@ export class AppComponent {
   @Input() selectedLetters: string[] = [];
   tileHasBeenClicked: boolean = false;
   //Game variables
-  wordDatabase: { [key: string]: boolean } = {
-    AA: true,
-    AAH: true,
-    AAHED: true,
-    AAHING: true,
-    AAHS: true,
-    AAL: true,
-    AALII: true,
-    AALIIS: true,
-    AALS: true,
-    AARGH: true,
-    AARRGH: true,
-    AARRGHH: true,
-    AARTI: true,
-    AAS: true,
-    AB: true,
-    ABA: true,
-    ABAC: true,
-    ABACA: true,
-    ABACAS: true,
-    ABACI: true,
-    ABACK: true,
-    ABACS: true,
-    ABACUS: true,
-    ABAFT: true,
-    ABAKA: true,
-    ABAKAS: true,
-    ABALONE: true,
-    ABAMP: true,
-    ABAMPS: true,
-    ABAND: true,
-    ABANDON: true,
-    ABAS: true,
-    ABASE: true,
-    ABASED: true,
-    ABASER: true,
-    ABASERS: true,
-    ABASES: true,
-    ABASH: true,
-    ABASHED: true,
-    ABASHES: true,
-    ABASIA: true,
-    ABASIAS: true,
-    ABASING: true,
-    ABASK: true,
-    ABATE: true,
-    ABATED: true,
-    ABATER: true,
-    ABATERS: true,
-    ABATES: true,
-    ABATING: true,
-    ABATIS: true,
-    ABATOR: true,
-    ABATORS: true,
-    ABATTIS: true,
-    ABAXIAL: true,
-    ABAXILE: true,
-    ABAYA: true,
-    ABAYAS: true,
-    ABB: true,
-    ABBA: true,
-    ABBACY: true,
-    ABBAS: true,
-    ABBASI: true,
-    ABBE: true,
-    ABBES: true,
-    ABBESS: true,
-    ABBEY: true,
-    ABBEYS: true,
-    ABBOT: true,
-    ABBOTCY: true,
-    ABBOTS: true,
-    ABBS: true,
-    ABDABS: true,
-    ABDOMEN: true,
-    ABDUCE: true,
-    ABDUCED: true,
-    ABDUCES: true,
-    ABDUCT: true,
-    ABDUCTS: true,
-    ABEAM: true,
-    ABEAR: true,
-    ABED: true,
-    ABELE: true,
-    ABELES: true,
-    ABELIA: true,
-    ABELIAN: true,
-    ABELIAS: true,
-    ABEND: true,
-    ABET: true,
-    ABETS: true,
-    ABETTAL: true,
-    ABETTED: true,
-    ABETTER: true,
-    ABETTOR: true,
-    ABEYANT: true,
-    ABFARAD: true,
-    ABHENRY: true,
-    ABHOR: true,
-    ABHORS: true,
-    ABID: true,
-    ABIDE: true,
-    ABIDED: true,
-    ABIDER: true,
-    ABIDERS: true,
-    ABIDES: true,
-    ABIDING: true,
-    ABIES: true,
-    ABIGAIL: true,
-    ABILITY: true,
-    ABIOSES: true,
-  };
+  
+
   randomTiles: string[] = ['A', 'B', 'C', 'A', 'E', 'F', 'A'];
   submittedWords: string[] = [];
   //This piece of creates an object with each letter and it's number of occurences in the randomTiles Array
@@ -143,17 +37,17 @@ export class AppComponent {
     },
     {}
   );
-  
-  score:number=0;
 
-  wordLengthAndScores:{[key:number]:number}={
-    "2":100,
-    "3":400,
-    "4":1200,
-    "5":2000,
-    "6":3000,
-    "7":4000,
-  }
+  score: number = 0;
+
+  wordLengthAndScores: { [key: number]: number } = {
+    '2': 100,
+    '3': 400,
+    '4': 1200,
+    '5': 2000,
+    '6': 3000,
+    '7': 4000,
+  };
   //countDown Variables
   countDown: number = 30;
   setIntervalID: any;
@@ -264,15 +158,14 @@ export class AppComponent {
     if (this.selectedLetters.length != 0) {
       //Checking if word is found inside Databse Array and has not been already submitted
       if (
-        this.wordDatabase[this.selectedLetters.join('')] &&
+        wordDatabase[this.selectedLetters.join('')] &&
         !this.submittedWords.includes(this.selectedLetters.join(''))
       ) {
         this.submittedWords.push(this.selectedLetters.join(''));
-        this.score+=this.wordLengthAndScores[this.selectedLetters.join('').length]
-        
+        this.score +=
+          this.wordLengthAndScores[this.selectedLetters.join('').length];
       }
 
-    
       this.selectedLetters = [];
       this.selectedLetterIndex = [];
       //I brought this here so that when you submit a word it resets the letter count to the original value
