@@ -28,7 +28,9 @@ export class WodDialogComponent {
      })
      
     }
-   
+    if(this.WordOfTheDayService.checkTimestampExpired()){
+      this.router.navigate(['wod'])
+    }
   }
   closeWodModal(){
     this.router.navigate([''])

@@ -1,4 +1,4 @@
-import { Component, HostListener, Input,OnInit } from '@angular/core';
+import { Component, HostListener, Input, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -6,28 +6,35 @@ import { wordDatabase } from '../wordDatabase';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
-
 import { faShuffle } from '@fortawesome/free-solid-svg-icons';
 import { faRotateRight } from '@fortawesome/free-solid-svg-icons';
+import { faClock } from '@fortawesome/free-regular-svg-icons';
 
 @Component({
   selector: 'app-game',
   standalone: true,
-  imports: [RouterOutlet, FontAwesomeModule, CommonModule, HttpClientModule,RouterModule],
+  imports: [
+    RouterOutlet,
+    FontAwesomeModule,
+    CommonModule,
+    HttpClientModule,
+    RouterModule,
+  ],
   templateUrl: './game.component.html',
-  styleUrl: './game.component.css'
+  styleUrl: './game.component.css',
 })
-export class GameComponent {
+export class GameComponent implements OnInit {
   faShuffle = faShuffle;
-  faRotate=faRotateRight;
+  faRotate = faRotateRight;
+  faClock = faClock;
+
   //Tile selection variables
   selectedLetterIndex: number[] = [];
   @Input() selectedLetters: string[] = [];
   tileHasBeenClicked: boolean = false;
   //Game variables
-  
-
-  randomTiles: string[] = ['A', 'B', 'C', 'A', 'E', 'F', 'A'];
+  selectedTime: number | undefined=30;
+  randomTiles: string[] = [];
   submittedWords: string[] = [];
   //This piece of creates an object with each letter and it's number of occurences in the randomTiles Array
   letterCount: { [key: string]: number } = this.randomTiles.reduce(
@@ -50,7 +57,21 @@ export class GameComponent {
   };
   //countDown Variables
   countDown: number = 30;
-  setIntervalID: any;
+  setIntervalID: any=0;
+
+  ngOnInit(): void {
+    this.generateRandomTiles();
+  }
+
+  generateRandomTiles() {
+    const scrabbleLetters =
+      'AAAAAAAAABBCCDDDDEEEEEEEEEEEEFFGGGHHIIIIIIIIIJKLLLLMMNNNNNNOOOOOOOOPPQRRRRRRSSSSTTTTUUUUVVWWXYYZ';
+    for (let i = 0; i < 7; i++) {
+      this.randomTiles.push(
+        scrabbleLetters[Math.floor(Math.random() * scrabbleLetters.length)]
+      );
+    }
+  }
 
   startCountdown() {
     this.setIntervalID = setInterval(() => {
@@ -59,11 +80,14 @@ export class GameComponent {
       } else {
         this.submitWord();
         this.stopCountdown();
+       
       }
     }, 1000);
+   
   }
   stopCountdown() {
     clearInterval(this.setIntervalID);
+    this.setIntervalID=0
   }
 
   shuffleTiles() {
@@ -78,6 +102,15 @@ export class GameComponent {
         this.randomTiles[i],
       ];
     }
+    if (
+      this.setIntervalID == 0 &&
+      (this.countDown == 15 ||
+        this.countDown == 30 ||
+        this.countDown == 60 ||
+        this.countDown == 120)
+    ) {
+      this.startCountdown();
+    }
   }
 
   removeSelectedTiles(index: number) {
@@ -90,7 +123,7 @@ export class GameComponent {
     ] += 1;
   }
 
-  //This an input method which allows a user to select tiles by clicking on it
+  //KeyBoard Input method
 
   @HostListener('window:keydown', ['$event']) onTilePress(
     event: KeyboardEvent
@@ -110,7 +143,13 @@ export class GameComponent {
         );
         if (this.randomTiles.includes(key) && this.letterCount[key] != 0) {
           //Starts the CountDown when a Tile is selected
-          if (this.selectedLetters.length == 0 && this.countDown == 30) {
+          if (
+            this.setIntervalID == 0 &&
+            (this.countDown == 15 ||
+              this.countDown == 30 ||
+              this.countDown == 60 ||
+              this.countDown == 120)
+          ) {
             this.startCountdown();
           }
 
@@ -136,14 +175,20 @@ export class GameComponent {
       }
     }
   }
-  //This an input method which allows a user to select tiles by clicking on it
+  //Mouse Input method
   onTileClick(event: any, index: number) {
-    if (this.countDown > 0) {
+    if (this.countDown > 0 && !this.selectedLetterIndex.includes(index)) {
       const key = event.target.innerText;
 
       if (this.randomTiles.includes(key) && this.letterCount[key] != 0) {
         //Starts the CountDown when a Tile is selected
-        if (this.selectedLetters.length == 0 && this.countDown == 30) {
+        if (
+          this.setIntervalID == 0 &&
+          (this.countDown == 15 ||
+            this.countDown == 30 ||
+            this.countDown == 60 ||
+            this.countDown == 120)
+        ) {
           this.startCountdown();
         }
 
@@ -176,6 +221,27 @@ export class GameComponent {
         },
         {}
       );
+    }
+  }
+
+  restartGame() {
+    this.score = 0;
+    this.selectedLetterIndex = [];
+    this.selectedLetters = [];
+    this.randomTiles = [];
+    this.generateRandomTiles();
+    this.submittedWords = [];
+    this.stopCountdown();
+    if(this.selectedTime){
+      this.countDown = this.selectedTime;
+    }
+    
+  }
+
+  setTimer(time: number) {
+    if( this.setIntervalID==0 && (this.countDown==15||this.countDown==30||this.countDown==60||this.countDown==120)){
+      this.countDown = time;
+     this.selectedTime = time;
     }
   }
 }

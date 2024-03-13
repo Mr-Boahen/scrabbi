@@ -6,23 +6,34 @@ import { HttpClientModule } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { WordOfTheDayServiceService } from './services/word-of-the-day-service.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faBook } from '@fortawesome/free-solid-svg-icons';
+import { faBook, faCrown, faInfo } from '@fortawesome/free-solid-svg-icons';
+import { faClock } from '@fortawesome/free-regular-svg-icons';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CommonModule, RouterModule,HttpClientModule,FontAwesomeModule],
+  imports: [
+    RouterOutlet,
+    CommonModule,
+    RouterModule,
+    HttpClientModule,
+    FontAwesomeModule,
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
-  providers:[WordOfTheDayServiceService]
+  providers: [WordOfTheDayServiceService],
 })
 export class AppComponent {
   title = 'scrabbi';
-  faBook=faBook;
+  faBook = faBook;
+  faInfo = faInfo;
+  faCrown = faCrown;
+ 
+  
 
-  constructor(private router:Router,private wod:WordOfTheDayServiceService){
-    if(wod.checkTimestampExpired()==true){
-      router.navigate(['wod'])
+  constructor(router: Router,  wod: WordOfTheDayServiceService) {
+    if (wod.checkTimestampExpired()) {
+      router.navigate(['wod']);
     }
-
   }
+ 
 }

@@ -1,10 +1,10 @@
-<div>
+<div class="absolute   top-[10%] z-50 w-[100%] h-[90vh] flex justify-center ">
   <div
-    class="absolute bg-white left-[10%] top-[10%] z-50 grid place-items-center text-black w-[80%] h-[80%] rounded-lg"
+    class="bg-white  pt-28 flex justify-center  text-black w-[80%] lg:w-[50%] mx-auto h-[90%] rounded-lg  "
   >
-    <div class="h-[50%] w-[60%] -mt-20 text-justify">
-      <p class="text-black mb-5 font-splinesans text-2xl ">Word Of The Day</p>
-      <h1 class="font-lora italic font-[500] text-5xl">
+    <div class="h-[50%] w-[80%] sm:w-[60%] lg:w-[70%] -mt-20 text-justify">
+      <p class="text-black mb-5 font-splinesans text-lg ">Word Of The Day</p>
+      <h1 class="font-lora italic font-[500] text-2xl">
         {{ wordOfTheDay?.word }}
       </h1>
       <h2 class="italic mt-5 font-semibold font-jetbrains">Definition</h2>
@@ -13,7 +13,7 @@
         class="mb-3"
           *ngFor="let definition of wordOfTheDay?.definitions; let i = index"
         >
-          <li class="font-jetbrains text-[16px]">{{ definition?.text }}</li>
+          <li class="font-jetbrains text-sm">{{ definition?.text }}</li>
         </div>
       </div>
       <h2 class="italic mt-5 font-semibold font-jetbrains">Examples</h2>
@@ -22,21 +22,16 @@
           class="mb-3 relative"
           *ngFor="let example of wordOfTheDay?.examples; let i = index"
         >
-          <li class="font-jetbrains text-[16px]">{{ example?.text }}</li>
+          <li class="font-jetbrains text-sm">{{ example?.text }}</li>
         </div>
       </div>
       <p>
-        <span class="italic font-semibold font-jetbrains">Note: </span>
-        <span class="italic font-bold font-jetbrains">{{
+        <span class="italic font-semibold font-jetbrains text-base">Note: </span>
+        <span class="italic font-bold font-jetbrains text-sm">{{
           wordOfTheDay?.note
         }}</span>
       </p>
     </div>
-    <div
-      (click)="closeWodModal()"
-      class="cursor-pointer rounded-md border-2 font-semibold font-jetbrains border-purple-600 p-2 active:scale-[98%] hover:bg-purple-600 hover:text-white transition-all duration-100 ease-in-out"
-    >
-      Start ScrabIng
-    </div>
+    
   </div>
 </div>

@@ -15,9 +15,6 @@ export class WordOfTheDayServiceService {
     
     
    
-    if(this.checkTimestampExpired()==false){
-      return null
-    }
     this.LocalStorage.setItem("timeStamp",`${new Date().getDay()}`)
     
     
