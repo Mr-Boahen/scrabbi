@@ -3,37 +3,69 @@ import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { wordDatabase } from '../wordDatabase';
-import { HttpClientModule } from '@angular/common/http';
+
 import { RouterModule } from '@angular/router';
 
 import { faShuffle } from '@fortawesome/free-solid-svg-icons';
 import { faRotateRight } from '@fortawesome/free-solid-svg-icons';
 import { faClock } from '@fortawesome/free-regular-svg-icons';
 
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition,
+  keyframes,
+} from '@angular/animations';
+import { DatabaseService } from '../services/database.service';
+
 @Component({
   selector: 'app-game',
   standalone: true,
-  imports: [
-    RouterOutlet,
-    FontAwesomeModule,
-    CommonModule,
-    HttpClientModule,
-    RouterModule,
-  ],
+  imports: [RouterOutlet, FontAwesomeModule, CommonModule, RouterModule],
   templateUrl: './game.component.html',
-  styleUrl: './game.component.css',
+ 
+  animations: [
+    trigger('fadeInAndPop', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'scale(0)' }),
+        animate('100ms ease-in', style({ opacity: 1, transform: 'scale(1)' })),
+      ]),
+      transition(':leave', [
+        animate('100ms ease-in', style({ opacity: 0, transform: 'scale(0)' })),
+      ]),
+    ]),
+    trigger('shakeOnError', [
+      transition('*=>shake', [
+        animate(
+          '300ms ease-in',
+          keyframes([
+            style({ transform: 'translate3d(-10px, 0, 0)', offset: 0.1 }),
+            style({ transform: 'translate3d(10px, 0, 0)', offset: 0.2 }),
+            style({ transform: 'translate3d(-10px, 0, 0)', offset: 0.3 }),
+            style({ transform: 'translate3d(10px, 0, 0)', offset: 0.4 }),
+            style({ transform: 'translate3d(-10px, 0, 0)', offset: 0.5 }),
+            style({ transform: 'translate3d(0, 0, 0)', offset: 0.6 }),
+          ])
+        ),
+      ]),
+    ]),
+  ],
 })
 export class GameComponent implements OnInit {
   faShuffle = faShuffle;
   faRotate = faRotateRight;
   faClock = faClock;
 
+  animationState: string = '';
+
   //Tile selection variables
   selectedLetterIndex: number[] = [];
   @Input() selectedLetters: string[] = [];
   tileHasBeenClicked: boolean = false;
   //Game variables
-  selectedTime: number | undefined=30;
+  selectedTime: number | undefined = 30;
   randomTiles: string[] = [];
   submittedWords: string[] = [];
   //This piece of creates an object with each letter and it's number of occurences in the randomTiles Array
@@ -57,7 +89,9 @@ export class GameComponent implements OnInit {
   };
   //countDown Variables
   countDown: number = 30;
-  setIntervalID: any=0;
+  setIntervalID: any = 0;
+
+  constructor(private database: DatabaseService) {}
 
   ngOnInit(): void {
     this.generateRandomTiles();
@@ -80,14 +114,20 @@ export class GameComponent implements OnInit {
       } else {
         this.submitWord();
         this.stopCountdown();
-       
       }
     }, 1000);
-   
   }
   stopCountdown() {
     clearInterval(this.setIntervalID);
-    this.setIntervalID=0
+    this.setIntervalID = 0;
+    this.database.updateGameHistory({
+      wordCount: this.submittedWords.length,
+      score: this.score,
+      wordsPerMinute: 0,
+      accuracy: 0,
+      gameTime:this.selectedTime,
+      timestamp:Date.now()
+    }).subscribe((data)=>console.log(data));
   }
 
   shuffleTiles() {
@@ -209,10 +249,16 @@ export class GameComponent implements OnInit {
         this.submittedWords.push(this.selectedLetters.join(''));
         this.score +=
           this.wordLengthAndScores[this.selectedLetters.join('').length];
+      } else {
+        this.animationState = 'shake';
+        setTimeout(() => {
+          this.animationState = '';
+        }, 300);
       }
 
       this.selectedLetters = [];
       this.selectedLetterIndex = [];
+
       //I brought this here so that when you submit a word it resets the letter count to the original value
       this.letterCount = this.randomTiles.reduce(
         (acc: { [key: string]: number }, current) => {
@@ -232,16 +278,21 @@ export class GameComponent implements OnInit {
     this.generateRandomTiles();
     this.submittedWords = [];
     this.stopCountdown();
-    if(this.selectedTime){
+    if (this.selectedTime) {
       this.countDown = this.selectedTime;
     }
-    
   }
 
   setTimer(time: number) {
-    if( this.setIntervalID==0 && (this.countDown==15||this.countDown==30||this.countDown==60||this.countDown==120)){
+    if (
+      this.setIntervalID == 0 &&
+      (this.countDown == 15 ||
+        this.countDown == 30 ||
+        this.countDown == 60 ||
+        this.countDown == 120)
+    ) {
       this.countDown = time;
-     this.selectedTime = time;
+      this.selectedTime = time;
     }
   }
 }

@@ -11,7 +11,7 @@ export class WordOfTheDayServiceService {
 
   constructor(private http:HttpClient,private LocalStorage:LocalStorageService ) { }
 
-  getWordOfTheDay():Observable<object> | null{
+  getWordOfTheDay():Observable<object>{
     
     
    

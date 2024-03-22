@@ -1,6 +1,6 @@
 <div class="absolute z-10 h-[90vh] w-[100vw] grid place-items-center">
   <div
-    class="relative h-[75%] w-[80%] lg:w-[50%] border-2 border-[#300046] rounded-lg"
+    class="relative h-[75%] w-[80%] lg:w-[60%] border-2 border-[#300046] rounded-lg"
   >
     <div
       class="absolute z-40 w-[100%] flex justify-center p-5 sm:p-10 sm:-scroll-mt-5"
@@ -49,11 +49,11 @@
             <h1
               (click)="setTimer(15)"
               [ngClass]="{
-                'text-purple-900': selectedTime!=15,
+                'text-purple-900': selectedTime != 15,
                 'text-[12px]': true,
                 'font-jetbrains': true,
                 'font-semibold': true,
-                'text-purple-600': selectedTime==15,
+                'text-purple-600': selectedTime == 15,
                 'cursor-pointer': true
               }"
             >
@@ -62,11 +62,11 @@
             <h1
               (click)="setTimer(30)"
               [ngClass]="{
-                'text-purple-900': selectedTime!=30,
+                'text-purple-900': selectedTime != 30,
                 'text-[12px]': true,
                 'font-jetbrains': true,
                 'font-semibold': true,
-                'text-purple-600': selectedTime==30,
+                'text-purple-600': selectedTime == 30,
                 'cursor-pointer': true
               }"
             >
@@ -75,11 +75,11 @@
             <h1
               (click)="setTimer(60)"
               [ngClass]="{
-                'text-purple-900': selectedTime!=60,
+                'text-purple-900': selectedTime != 60,
                 'text-[12px]': true,
                 'font-jetbrains': true,
                 'font-semibold': true,
-                'text-purple-600': selectedTime==60,
+                'text-purple-600': selectedTime == 60,
                 'cursor-pointer': true
               }"
             >
@@ -88,11 +88,11 @@
             <h1
               (click)="setTimer(120)"
               [ngClass]="{
-                'text-purple-900': selectedTime!=120,
+                'text-purple-900': selectedTime != 120,
                 'text-[12px]': true,
                 'font-jetbrains': true,
                 'font-semibold': true,
-                'text-purple-600': selectedTime==120,
+                'text-purple-600': selectedTime == 120,
                 'cursor-pointer': true
               }"
             >
@@ -120,63 +120,204 @@
         </div>
 
         <div
+          [@shakeOnError]="animationState"
           *ngIf="selectedLetters"
           class="flex sm:justify-center gap-1 mt-10 w-[100%]"
         >
           <div
             (click)="removeSelectedTiles(0)"
-            class="cursor-pointer grid place-items-center h-14 w-14 md:min-h-16 md:min-w-16 border-4 border-purple-900 rounded-[10px] active:scale-105 transition-all duration-100 ease-in-out"
+            [ngClass]="{
+              'cursor-pointer': true,
+              'grid': true,
+              'place-items-center': true,
+              'h-14': true,
+              'w-14': true,
+              'md:min-h-16': true,
+              'md:min-w-16': true,
+              'border-4': true,
+              'border-purple-900':animationState=='',
+              'border-red-800':animationState=='shake',
+              'rounded-[10px]': true,
+              'active:scale-105': true,
+              'transition-all': true,
+              'duration-100': true,
+              'ease-in-out': true
+            }"
           >
-            <h1 class="text-purple-500 text-lg font-jetbrains font-[800]">
+            <h1
+              [@fadeInAndPop]
+              *ngIf="selectedLetters[0]"
+              class="text-purple-500 text-lg font-jetbrains font-[800]"
+            >
               {{ selectedLetters[0] }}
             </h1>
           </div>
-          <div
+          <div [ngClass]="{
+            'cursor-pointer': true,
+            'grid': true,
+            'place-items-center': true,
+            'h-14': true,
+            'w-14': true,
+            'md:min-h-16': true,
+            'md:min-w-16': true,
+            'border-4': true,
+            'border-purple-900':animationState=='',
+            'border-red-800':animationState=='shake',
+            'rounded-[10px]': true,
+            'active:scale-105': true,
+            'transition-all': true,
+            'duration-100': true,
+            'ease-in-out': true
+          }"
             (click)="removeSelectedTiles(1)"
             class="cursor-pointer grid place-items-center h-14 w-14 md:h-16 md:min-w-16 border-4 border-purple-900 rounded-[10px] active:scale-105 transition-all duration-100 ease-in-out"
           >
-            <h1 class="text-purple-500 text-lg font-jetbrains font-[800]">
+            <h1
+              [@fadeInAndPop]
+              *ngIf="selectedLetters[1]"
+              class="text-purple-500 text-lg font-jetbrains font-[800]"
+            >
               {{ selectedLetters[1] }}
             </h1>
           </div>
-          <div
+          <div [ngClass]="{
+              'cursor-pointer': true,
+              'grid': true,
+              'place-items-center': true,
+              'h-14': true,
+              'w-14': true,
+              'md:min-h-16': true,
+              'md:min-w-16': true,
+              'border-4': true,
+              'border-purple-900':animationState=='',
+              'border-red-800':animationState=='shake',
+              'rounded-[10px]': true,
+              'active:scale-105': true,
+              'transition-all': true,
+              'duration-100': true,
+              'ease-in-out': true
+            }"
             (click)="removeSelectedTiles(2)"
             class="cursor-pointer grid place-items-center h-14 w-14 md:h-16 md:min-w-16 border-4 border-purple-900 rounded-[10px] active:scale-105 transition-all duration-100 ease-in-out"
           >
-            <h1 class="text-purple-500 text-lg font-jetbrains font-[800]">
+            <h1
+              [@fadeInAndPop]
+              *ngIf="selectedLetters[2]"
+              class="text-purple-500 text-lg font-jetbrains font-[800]"
+            >
               {{ selectedLetters[2] }}
             </h1>
           </div>
 
-          <div
+          <div [ngClass]="{
+              'cursor-pointer': true,
+              'grid': true,
+              'place-items-center': true,
+              'h-14': true,
+              'w-14': true,
+              'md:min-h-16': true,
+              'md:min-w-16': true,
+              'border-4': true,
+              'border-purple-900':animationState=='',
+              'border-red-800':animationState=='shake',
+              'rounded-[10px]': true,
+              'active:scale-105': true,
+              'transition-all': true,
+              'duration-100': true,
+              'ease-in-out': true
+            }"
             (click)="removeSelectedTiles(3)"
             class="cursor-pointer grid place-items-center h-14 w-14 md:h-16 md:min-w-16 border-4 border-purple-900 rounded-[10px] active:scale-105 transition-all duration-100 ease-in-out"
           >
-            <h1 class="text-purple-500 text-lg font-jetbrains font-[800]">
+            <h1
+              [@fadeInAndPop]
+              *ngIf="selectedLetters[3]"
+              class="text-purple-500 text-lg font-jetbrains font-[800]"
+            >
               {{ selectedLetters[3] }}
             </h1>
           </div>
-          <div
+          <div [ngClass]="{
+              'cursor-pointer': true,
+              'grid': true,
+              'place-items-center': true,
+              'h-14': true,
+              'w-14': true,
+              'md:min-h-16': true,
+              'md:min-w-16': true,
+              'border-4': true,
+              'border-purple-900':animationState=='',
+              'border-red-800':animationState=='shake',
+              'rounded-[10px]': true,
+              'active:scale-105': true,
+              'transition-all': true,
+              'duration-100': true,
+              'ease-in-out': true
+            }"
             (click)="removeSelectedTiles(4)"
             class="cursor-pointer grid place-items-center h-14 w-14 md:h-16 md:min-w-16 border-4 border-purple-900 rounded-[10px] active:scale-105 transition-all duration-100 ease-in-out"
           >
-            <h1 class="text-purple-500 text-lg font-jetbrains font-[800]">
+            <h1
+              [@fadeInAndPop]
+              *ngIf="selectedLetters[4]"
+              class="text-purple-500 text-lg font-jetbrains font-[800]"
+            >
               {{ selectedLetters[4] }}
             </h1>
           </div>
-          <div
+          <div [ngClass]="{
+              'cursor-pointer': true,
+              'grid': true,
+              'place-items-center': true,
+              'h-14': true,
+              'w-14': true,
+              'md:min-h-16': true,
+              'md:min-w-16': true,
+              'border-4': true,
+              'border-purple-900':animationState=='',
+              'border-red-800':animationState=='shake',
+              'rounded-[10px]': true,
+              'active:scale-105': true,
+              'transition-all': true,
+              'duration-100': true,
+              'ease-in-out': true
+            }"
             (click)="removeSelectedTiles(5)"
             class="cursor-pointer grid place-items-center h-14 w-14 md:h-16 md:min-w-16 border-4 border-purple-900 rounded-[10px] active:scale-105 transition-all duration-100 ease-in-out"
           >
-            <h1 class="text-purple-500 text-lg font-jetbrains font-[800]">
+            <h1
+              [@fadeInAndPop]
+              *ngIf="selectedLetters[5]"
+              class="text-purple-500 text-lg font-jetbrains font-[800]"
+            >
               {{ selectedLetters[5] }}
             </h1>
           </div>
-          <div
+          <div [ngClass]="{
+              'cursor-pointer': true,
+              'grid': true,
+              'place-items-center': true,
+              'h-14': true,
+              'w-14': true,
+              'md:min-h-16': true,
+              'md:min-w-16': true,
+              'border-4': true,
+              'border-purple-900':animationState=='',
+              'border-red-800':animationState=='shake',
+              'rounded-[10px]': true,
+              'active:scale-105': true,
+              'transition-all': true,
+              'duration-100': true,
+              'ease-in-out': true
+            }"
             (click)="removeSelectedTiles(6)"
             class="cursor-pointer grid place-items-center h-14 w-14 md:h-16 md:min-w-16 border-4 border-purple-900 rounded-[10px] active:scale-105 transition-all duration-100 ease-in-out"
           >
-            <h1 class="text-purple-500 text-lg font-jetbrains font-[800]">
+            <h1
+              [@fadeInAndPop]
+              *ngIf="selectedLetters[6]"
+              class="text-purple-500 text-lg font-jetbrains font-[800]"
+            >
               {{ selectedLetters[6] }}
             </h1>
           </div>
@@ -207,7 +348,7 @@
     </div>
 
     <div
-      class="absolute z-20 flex flex-col w-[100%] gap-10 h-[100%] items-center justify-end pb-10 sm:pb-16"
+      class="absolute z-20 flex flex-col w-[100%] gap-7 h-[80%] mt-[40px] sm:mt-[80px] md:mt-[40px] lg:mt-[120px] xl:mt-[50px] items-center justify-end pb-10 sm:pb-16"
     >
       <div
         (click)="submitWord()"
@@ -219,7 +360,7 @@
             'cursor-not-allowed': selectedLetters.length == 0,
             'text-lg': true,
             'font-jetbrains': true,
-            'border-4': true,
+            'border-2': true,
             'border-purple-800': true,
             'border-purple-950': selectedLetters.length == 0,
             'rounded-lg': true,
@@ -227,7 +368,7 @@
             'py-1': true,
             'text-purple-500': selectedLetters.length != 0,
             'text-purple-900': selectedLetters.length == 0,
-            'font-bold': true,
+            'font-extrabold': true,
             'hover:bg-purple-950': selectedLetters.length != 0,
             'active:scale-105': true,
             'transition-all': true,
