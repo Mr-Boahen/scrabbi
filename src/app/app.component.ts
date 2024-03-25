@@ -15,6 +15,7 @@ import {
   transition,
   // ...
 } from '@angular/animations';
+import { LocalStorageService } from './services/local-storage.service';
 
 const fadeTrans = transition(':enter', [
   style({
@@ -38,9 +39,9 @@ export class AppComponent {
   faInfo = faInfo;
   faCrown = faCrown;
 
-  constructor(router: Router, wod: WordOfTheDayServiceService) {
-    if (wod.checkTimestampExpired()) {
-      router.navigate(['wod']);
+  constructor(router: Router, wod: WordOfTheDayServiceService,private localStorage:LocalStorageService) {
+    if(!localStorage.getItem('userDetails')){
+      router.navigate(['login'])
     }
   }
 }

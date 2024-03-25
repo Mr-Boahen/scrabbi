@@ -1,5 +1,5 @@
 import { Component, HostListener, Input, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { wordDatabase } from '../wordDatabase';
@@ -19,6 +19,7 @@ import {
   keyframes,
 } from '@angular/animations';
 import { DatabaseService } from '../services/database.service';
+import { LocalStorageService } from '../services/local-storage.service';
 
 @Component({
   selector: 'app-game',
@@ -65,7 +66,7 @@ export class GameComponent implements OnInit {
   @Input() selectedLetters: string[] = [];
   tileHasBeenClicked: boolean = false;
   //Game variables
-  selectedTime: number | undefined = 30;
+  selectedTime: number | undefined;
   randomTiles: string[] = [];
   submittedWords: string[] = [];
   //This piece of creates an object with each letter and it's number of occurences in the randomTiles Array
@@ -91,10 +92,26 @@ export class GameComponent implements OnInit {
   countDown: number = 30;
   setIntervalID: any = 0;
 
-  constructor(private database: DatabaseService) {}
+  constructor(private database: DatabaseService, router:Router,private localStorage:LocalStorageService) {
+    const userDetailsString = this.localStorage.getItem('userDetails');
+    if (userDetailsString !== null) {
+      const userDetails = JSON.parse(userDetailsString);
+      this.selectedTime=userDetails.gameHistory[userDetails.gameHistory.length-1].gameTime
+      this.countDown=userDetails.gameHistory[userDetails.gameHistory.length-1].gameTime
+    } else {
+      console.error('User details not found in localStorage.');
+    }
+    
+    
+    if(!localStorage.getItem('userDetails')){
+      router.navigate(['login'])
+    }
+
+  }
 
   ngOnInit(): void {
     this.generateRandomTiles();
+
   }
 
   generateRandomTiles() {
@@ -127,7 +144,7 @@ export class GameComponent implements OnInit {
       accuracy: 0,
       gameTime:this.selectedTime,
       timestamp:Date.now()
-    }).subscribe((data)=>console.log(data));
+    }).subscribe((data:any)=>console.log(data));
   }
 
   shuffleTiles() {

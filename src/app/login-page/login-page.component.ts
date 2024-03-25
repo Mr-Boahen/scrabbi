@@ -1,16 +1,19 @@
 import { Component } from '@angular/core';
-import {ReactiveFormsModule,FormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule,FormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DatabaseService } from '../services/database.service';
 import { LocalStorageService } from '../services/local-storage.service';
-import { Router, RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
 import { animate, style, transition, trigger } from '@angular/animations';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+
 
 @Component({
-  selector: 'app-register-page',
+  selector: 'app-login-page',
   standalone: true,
   imports: [ReactiveFormsModule,FormsModule,CommonModule,RouterModule],
-  templateUrl: './register-page.component.html',
+  templateUrl: './login-page.component.html',
+  styleUrl: './login-page.component.css',
   animations: [
     trigger('fadeInAndPop', [
       transition(':enter', [
@@ -31,22 +34,21 @@ import { animate, style, transition, trigger } from '@angular/animations';
       ]),
     ]), 
   ],
-
 })
-export class RegisterPageComponent {
-  registerationForm:FormGroup;
+export class LoginPageComponent {
+  loginForm:FormGroup;
   constructor(private fb:FormBuilder,private db:DatabaseService,private localStorage:LocalStorageService,private router:Router){
-    this.registerationForm=this.fb.group({
+    this.loginForm=this.fb.group({
       username:['',[Validators.required,Validators.minLength(8)]],
       password:['',[Validators.required,Validators.minLength(6)]]
     })
   }
   get username(){
-    return this.registerationForm.get('username')
+    return this.loginForm.get('username')
   }
-onSubmit(event:any){
-    if(this.registerationForm?.valid){
-      this.db.registerUser(this.registerationForm.value).subscribe((data)=>{
+onSubmit(){
+    if(this.loginForm?.valid){
+      this.db.loginUser(this.loginForm.value).subscribe((data)=>{
           this.localStorage.setItem('userDetails',JSON.stringify(data))
           this.router.navigate([''])
 
