@@ -26,7 +26,7 @@ import { LocalStorageService } from '../services/local-storage.service';
   standalone: true,
   imports: [RouterOutlet, FontAwesomeModule, CommonModule, RouterModule],
   templateUrl: './game.component.html',
- 
+
   animations: [
     trigger('fadeInAndPop', [
       transition(':enter', [
@@ -66,6 +66,7 @@ export class GameComponent implements OnInit {
   @Input() selectedLetters: string[] = [];
   tileHasBeenClicked: boolean = false;
   //Game variables
+  highestScore: any;
   selectedTime: number | undefined;
   randomTiles: string[] = [];
   submittedWords: string[] = [];
@@ -92,26 +93,34 @@ export class GameComponent implements OnInit {
   countDown: number = 30;
   setIntervalID: any = 0;
 
-  constructor(private database: DatabaseService, router:Router,private localStorage:LocalStorageService) {
+  constructor(
+    private database: DatabaseService,
+    private router: Router,
+    private localStorage: LocalStorageService
+  ) {
     const userDetailsString = this.localStorage.getItem('userDetails');
     if (userDetailsString !== null) {
-      const userDetails = JSON.parse(userDetailsString);
-      this.selectedTime=userDetails.gameHistory[userDetails.gameHistory.length-1].gameTime
-      this.countDown=userDetails.gameHistory[userDetails.gameHistory.length-1].gameTime
+        const userDetails = JSON.parse(userDetailsString);
+ 
+      this.selectedTime =
+        userDetails.gameHistory[userDetails.gameHistory.length - 1]?.gameTime ||
+        30;
+      this.countDown =
+        userDetails.gameHistory[userDetails.gameHistory.length - 1]?.gameTime ||
+        30;
+      this.highestScore = userDetails.highestScore;
+   
     } else {
       console.error('User details not found in localStorage.');
     }
-    
-    
-    if(!localStorage.getItem('userDetails')){
-      router.navigate(['login'])
-    }
 
+    if (!localStorage.getItem('userDetails')) {
+      router.navigate(['login']);
+    }
   }
 
   ngOnInit(): void {
     this.generateRandomTiles();
-
   }
 
   generateRandomTiles() {
@@ -137,14 +146,26 @@ export class GameComponent implements OnInit {
   stopCountdown() {
     clearInterval(this.setIntervalID);
     this.setIntervalID = 0;
-    this.database.updateGameHistory({
-      wordCount: this.submittedWords.length,
-      score: this.score,
-      wordsPerMinute: 0,
-      accuracy: 0,
-      gameTime:this.selectedTime,
-      timestamp:Date.now()
-    }).subscribe((data:any)=>console.log(data));
+    this.highestScore =
+      this.highestScore > this.score ? this.highestScore : this.score;
+    this.database
+      .updateGameHistory({
+        wordCount: this.submittedWords.length,
+        score: this.score,
+        wordsPerMinute: 0,
+        accuracy: 0,
+        highestScore: this.highestScore,
+        gameTime: this.selectedTime,
+        timestamp: Date.now(),
+      })
+      .subscribe((data: any) => this.localStorage.setItem('userDetails', JSON.stringify(data)));
+    this.database.getLeaderBoard().subscribe((data: any) => {
+      this.localStorage.setItem('leaderBoard', JSON.stringify(data));
+      this.router.navigate(['leaderboard'])
+      
+    });
+
+   
   }
 
   shuffleTiles() {

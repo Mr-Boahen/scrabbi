@@ -12,7 +12,13 @@ export class DatabaseService {
     private http: HttpClient,
     private localStorage: LocalStorageService
   ) {}
-  updateGameHistory(data: any): any{
+  registerUser(data: any): Observable<object> {
+    return this.http.post(`${environment.databaseUrl}/register`, data);
+  }
+  loginUser(data: any): Observable<object> {
+    return this.http.post(`${environment.databaseUrl}/login`, data);
+  }
+  updateGameHistory(data: any): any {
     const userDetailsString = this.localStorage.getItem('userDetails');
     if (userDetailsString !== null) {
       const userDetails = JSON.parse(userDetailsString);
@@ -30,10 +36,21 @@ export class DatabaseService {
       console.error('User details not found in localStorage.');
     }
   }
-  registerUser(data: any): Observable<object> {
-    return this.http.post(`${environment.databaseUrl}/register`, data);
-  }
-  loginUser(data: any): Observable<object> {
-    return this.http.post(`${environment.databaseUrl}/login`, data);
+  getLeaderBoard():any{
+    const userDetailsString = this.localStorage.getItem('userDetails');
+    if (userDetailsString !== null) {
+      const userDetails = JSON.parse(userDetailsString);
+      return this.http.get(
+        `${environment.databaseUrl}/getLeaderBoard`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${userDetails.token}`,
+          },
+        }
+      ); // Access userDetails object
+    } else {
+      console.error('Could not get LeaderBoard');
+    }
   }
 }

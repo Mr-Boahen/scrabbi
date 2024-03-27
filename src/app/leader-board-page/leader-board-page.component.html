@@ -1,0 +1,58 @@
+<div class="absolute top-[10%] z-50 w-[100%] h-[90vh] flex justify-center">
+  <div
+    class="bg-fuchsia-300/10 p-10 text-black w-[80%] lg:w-[50%] mx-auto h-[90%] rounded-lg"
+  >
+    <div class="grid grid-rows-2 grid-cols-2">
+      <div class=" col-span-2 ">
+        <div><h1 class="text-lg font-jetbrains text-white">All-Time English Leaderboards</h1></div>
+       <div class="flex gap-5 w-fit h-fit mt-3">
+        <div class="cursor-pointer bg-fuchsia-300 text-center h-8 w-28 grid place-items-center rounded-lg font-jetbrains hover:bg-gray-200 duration-200 ease-in-out"><h1>all-time</h1></div>
+        <div class="cursor-pointer bg-fuchsia-300 text-center h-8 w-28 grid place-items-center rounded-lg font-jetbrains hover:bg-gray-200 duration-200 ease-in-out"><h1>daily</h1></div>
+       </div>
+      </div>
+      <div class="col-span-2 -mt-16">
+        <table class="w-full border-separate  border-spacing-y-2">
+            <thead>
+                <tr class="text-[13px]  font-jetbrains text-gray-600 font-bold">
+                    <td class="w-10 pl-4" >#</td>
+                    <td class="text-gray-500">name</td>
+                    <td class="text-right">
+                        <h1 class="text-gray-500">wpm</h1>
+                        <h1 class="text-[10px]">accuracy</h1>
+                    </td>
+                    <td class="text-right">
+                        <h1 class="text-gray-500">score</h1>
+                        <h1 class="text-[10px]">word-count</h1></td>
+                    <td class="text-right pr-4">
+                        <h1 class="text-gray-500">date</h1>
+                        <h1 class="text-[10px]">time</h1>
+
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let user of usersRanked; let i=index" class="text-gray-200 text-sm rounded-lg overflow-hidden font-bold px-3 h-12 font-jetbrains "> 
+                    <td class="text-[12px] bg-fuchsia-500/10 shadow-md rounded-l-md pl-4">{{i+1}}</td>
+                    <td class="w-80 text-[12px]  bg-fuchsia-500/10 shadow-md ">
+                        <h2 class="cursor-pointer" >{{user.username}}</h2>
+                    </td>
+                    <td class="text-[12px] text-right bg-fuchsia-500/10 shadow-md">
+                        <h2>300</h2>
+                    </td>
+                    <td class="text-[12px] text-right bg-fuchsia-500/10 shadow-md">
+                        <h2 class="text-[10px]">{{user.highestScore}}</h2>
+                        <h2 class="text-[10px] text-gray-400">300</h2>
+                    </td>
+                    <td class="text-[12px] text-right rounded-r-md pr-4 bg-fuchsia-500/10 shadow-md">
+                        <h2 class="text-[10px]">21 Aug 2023</h2>
+                 
+                        <h2 class="text-[10px] text-gray-400">12:14</h2>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+      </div>
+      <div></div>
+    </div>
+  </div>
+</div>
