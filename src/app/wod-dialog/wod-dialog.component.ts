@@ -8,11 +8,13 @@ import { WordOfTheDayServiceService } from '../services/word-of-the-day-service.
   standalone: true,
   imports: [CommonModule],
   templateUrl: './wod-dialog.component.html',
+  styleUrl: './wod-dialog.component.css',
   providers: [WordOfTheDayServiceService],
 })
 export class WodDialogComponent {
   public wordOfTheDay: any;
   showWod:boolean=true;
+  scrollAmount:number=0;
 
   constructor(private WordOfTheDayService: WordOfTheDayServiceService,private router:Router) {}
 
@@ -31,6 +33,14 @@ export class WodDialogComponent {
     if(this.WordOfTheDayService.checkTimestampExpired()){
       this.router.navigate(['wod'])
     }
+  }
+  scrollToDetails(amount:number){
+    this.scrollAmount=amount
+    document.querySelector('.word-of-the-day-scrollbar')?.scroll({
+      top: amount,
+      left: amount,
+      behavior: "smooth",
+    });
   }
   closeWodModal(){
     this.router.navigate([''])

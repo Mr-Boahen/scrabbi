@@ -1,50 +1,66 @@
 <div class="absolute z-10 h-[90vh] w-[100vw] grid place-items-center">
   <div
-    class="relative h-[75%] w-[80%] lg:w-[60%] border-2 border-[#300046] rounded-lg"
+    class="relative h-[75%] w-[80%] lg:w-[60%] bg-fuchsia-300/10   rounded-lg"
   >
     <div
-      class="absolute z-40 w-[100%] flex justify-center p-5 sm:p-10 sm:-scroll-mt-5"
+      class="absolute z-40 w-[100%] flex justify-center  gap-3 p-5 sm:p-10 sm:-scroll-mt-5"
     >
+    <div
+    class="text-md text-fuchsia-400/60 bg-fuchsia-300/5 border-fuchsia-400/20 rounded-full grid place-items-center px-3 h-14 w-14 border-2 shadow-md font-bold font-jetbrains"
+  >
+   <h1><span>{{ correctSubmittedWords.length }}</span></h1> 
+  </div>
       <div
         [ngClass]="{
-          grid: true,
+          'grid': true,
           'animate-pulse': countDown <= 5,
           'place-items-center': true,
           'w-28': true,
           'h-14': true,
+         
+          'bg-fuchsia-300':countDown>=6,
           'border-2': true,
-          'border-violet-700': true,
+          'border-violet-900': true,
           'rounded-full': true
         }"
       >
         <h1
           [ngClass]="{'text-red-500':countDown<=5,
-          'text-purple-500':countDown>=6,
+          'text-purple-900':countDown>=6,
           'text-lg':true,
+         
           'font-jetbrains':true,
           'font-[900]':true,}"
         >
           00:{{ countDown }}
         </h1>
       </div>
+     
+       
+        <div
+          class="text-md rounded-md bg-fuchsia-300/5 text-fuchsia-400/60 grid place-items-center p-1 border-2 min-w-20 border-fuchsia-400/20 font-bold font-jetbrains"
+        >
+          <span>{{ score }}</span>
+        </div>
+   
     </div>
     <div class="relative -top-16 z-20 w-[100%] flex items-center">
       <div
         class="flex gap-4 items-center justify-center w-[80%] lg:w-[50%] mx-auto h-10"
       >
-        <div class="w-60 h-8 rounded-lg bg-black/30 flex items-center px-5">
+        <div class="w-60 h-8 rounded-lg   flex items-center px-5">
           <div
-            title="leaderboard"
-            routerLink="wod"
-            class="flex gap-1 items-center font-jetbrains font-semibold text-[12px] cursor-pointer"
+           
+            class="flex gap-[3px] items-center font-jetbrains font-semibold text-[12px] cursor-pointer"
           >
             <fa-icon
               [icon]="faClock"
-              class="text-purple-800 text-[12px]"
+        
+              class="text-fuchsia-300/80  text-[11px]"
             ></fa-icon>
-            <h1 class="text-purple-900">time</h1>
+            <h1 class="text-fuchsia-300/60 ">time</h1>
           </div>
-          <div class="w-[3px] h-[18px] rounded-lg mx-3 bg-gray-800"></div>
+          <div class="w-[3px] h-[18px] rounded-lg mx-3 bg-black/30"></div>
           <div class="flex gap-5">
             <h1
               (click)="setTimer(15)"
@@ -53,7 +69,7 @@
                 'text-[12px]': true,
                 'font-jetbrains': true,
                 'font-semibold': true,
-                'text-purple-600': selectedTime == 15,
+                'text-fuchsia-300': selectedTime == 15,
                 'cursor-pointer': true
               }"
             >
@@ -66,7 +82,7 @@
                 'text-[12px]': true,
                 'font-jetbrains': true,
                 'font-semibold': true,
-                'text-purple-600': selectedTime == 30,
+                'text-fuchsia-300': selectedTime == 30,
                 'cursor-pointer': true
               }"
             >
@@ -79,7 +95,7 @@
                 'text-[12px]': true,
                 'font-jetbrains': true,
                 'font-semibold': true,
-                'text-purple-600': selectedTime == 60,
+                'text-fuchsia-300': selectedTime == 60,
                 'cursor-pointer': true
               }"
             >
@@ -92,7 +108,7 @@
                 'text-[12px]': true,
                 'font-jetbrains': true,
                 'font-semibold': true,
-                'text-purple-600': selectedTime == 120,
+                'text-fuchsia-300': selectedTime == 120,
                 'cursor-pointer': true
               }"
             >
@@ -104,20 +120,9 @@
     </div>
     <div class="absolute z-30 top-[20%] sm:top-[25%] w-[100%]">
       <div
-        class="h-[35%] w-[95%] md:w-[80%] lg:w-[95%] xl:w-[80%] mx-auto px-2 border-2 border-[#300046] rounded-lg"
+        class="h-[35%] w-[95%] md:w-[80%] lg:w-[95%] xl:w-[80%] mx-auto px-2 bg-fuchsia-300/10 border-2 border-transparent shadow-md rounded-lg"
       >
-        <div class="flex gap-5 absolute -top-4">
-          <h1
-            class="text-sm rounded-md p-1 border-2 bg-black border-purple-800 text-purple-500 font-bold font-jetbrains"
-          >
-            Words:<span>{{ submittedWords.length }}</span>
-          </h1>
-          <h1
-            class="text-sm rounded-md p-1 border-2 bg-black border-purple-800 text-purple-500 font-bold font-jetbrains"
-          >
-            Score:<span>{{ score }}</span>
-          </h1>
-        </div>
+       
 
         <div
           [@shakeOnError]="animationState"
@@ -134,8 +139,9 @@
               'w-14': true,
               'md:min-h-16': true,
               'md:min-w-16': true,
-              'border-4': true,
-              'border-purple-900':animationState=='',
+              'border-[2px]': true,
+              'shadow-lg':true,
+              'border-fuchsia-400/20':animationState=='',
               'border-red-800':animationState=='shake',
               'rounded-[10px]': true,
               'active:scale-105': true,
@@ -160,8 +166,9 @@
             'w-14': true,
             'md:min-h-16': true,
             'md:min-w-16': true,
-            'border-4': true,
-            'border-purple-900':animationState=='',
+            'border-[2px]': true,
+            'shadow-lg':true,
+            'border-fuchsia-400/20':animationState=='',
             'border-red-800':animationState=='shake',
             'rounded-[10px]': true,
             'active:scale-105': true,
@@ -188,8 +195,9 @@
               'w-14': true,
               'md:min-h-16': true,
               'md:min-w-16': true,
-              'border-4': true,
-              'border-purple-900':animationState=='',
+              'border-[2px]': true,
+              'shadow-lg':true,
+              'border-fuchsia-400/20':animationState=='',
               'border-red-800':animationState=='shake',
               'rounded-[10px]': true,
               'active:scale-105': true,
@@ -217,8 +225,9 @@
               'w-14': true,
               'md:min-h-16': true,
               'md:min-w-16': true,
-              'border-4': true,
-              'border-purple-900':animationState=='',
+              'border-[2px]': true,
+              'shadow-lg':true,
+              'border-fuchsia-400/20':animationState=='',
               'border-red-800':animationState=='shake',
               'rounded-[10px]': true,
               'active:scale-105': true,
@@ -245,8 +254,9 @@
               'w-14': true,
               'md:min-h-16': true,
               'md:min-w-16': true,
-              'border-4': true,
-              'border-purple-900':animationState=='',
+              'border-[2px]': true,
+              'shadow-lg':true,
+              'border-fuchsia-400/20':animationState=='',
               'border-red-800':animationState=='shake',
               'rounded-[10px]': true,
               'active:scale-105': true,
@@ -273,8 +283,9 @@
               'w-14': true,
               'md:min-h-16': true,
               'md:min-w-16': true,
-              'border-4': true,
-              'border-purple-900':animationState=='',
+              'border-[2px]': true,
+              'shadow-lg':true,
+              'border-fuchsia-400/20':animationState=='',
               'border-red-800':animationState=='shake',
               'rounded-[10px]': true,
               'active:scale-105': true,
@@ -301,8 +312,9 @@
               'w-14': true,
               'md:min-h-16': true,
               'md:min-w-16': true,
-              'border-4': true,
-              'border-purple-900':animationState=='',
+              'border-[2px]': true,
+              'shadow-lg':true,
+              'border-fuchsia-400/20':animationState=='',
               'border-red-800':animationState=='shake',
               'rounded-[10px]': true,
               'active:scale-105': true,
@@ -324,22 +336,22 @@
         </div>
         <div class="w-full my-5 flex gap-5 justify-center">
           <div
-            title="Restart game"
+            title="restart"
             (click)="restartGame()"
-            class="cursor-pointer grid place-items-center h-12 w-12 rounded-full border-2 border-purple-800 hover:bg-purple-950 active:scale-105 transition-all duration-100 ease-in-out"
+            class="cursor-pointer group grid border-2 border-purple-600 place-items-center h-12 w-12 rounded-full bg-fuchsia-300  hover:bg-purple-950 active:scale-105 transition-all duration-100 ease-in-out"
           >
             <fa-icon
-              class="text-purple-600 text-lg"
+              class="text-purple-900 group-hover:text-fuchsia-600  text-lg"
               [icon]="faRotate"
             ></fa-icon>
           </div>
           <div
-            title="Shuffle tiles"
+            title="shuffle"
             (click)="shuffleTiles()"
-            class="cursor-pointer grid place-items-center h-12 w-12 rounded-full border-2 border-purple-800 hover:bg-purple-950 active:scale-105 transition-all duration-100 ease-in-out"
+            class="cursor-pointer group bg-fuchsia-300 grid place-items-center h-12 w-12 rounded-full border-2 border-purple-600 hover:bg-purple-950 active:scale-105 transition-all duration-100 ease-in-out"
           >
             <fa-icon
-              class="text-purple-600 text-lg"
+              class="text-purple-900 group-hover:text-fuchsia-600 text-lg"
               [icon]="faShuffle"
             ></fa-icon>
           </div>
@@ -360,16 +372,18 @@
             'cursor-not-allowed': selectedLetters.length == 0,
             'text-lg': true,
             'font-jetbrains': true,
-            'border-2': true,
-            'border-purple-800': true,
+            'border-2': selectedLetters.length == 0,
+            'bg-fuchsia-300': selectedLetters.length != 0,
             'border-purple-950': selectedLetters.length == 0,
             'rounded-lg': true,
             'px-5': true,
             'py-1': true,
+            
             'text-purple-500': selectedLetters.length != 0,
-            'text-purple-900': selectedLetters.length == 0,
+            'text-purple-900': true,
             'font-extrabold': true,
             'hover:bg-purple-950': selectedLetters.length != 0,
+            'hover:text-fuchsia-300': selectedLetters.length != 0,
             'active:scale-105': true,
             'transition-all': true,
             'duration-100': true,
@@ -379,9 +393,11 @@
           ENTER
         </h1>
       </div>
-
+      <!-- 'border-[2px]': true,
+      'shadow-lg':true,
+      'border-fuchsia-400/20':animationState=='', -->
       <div
-        class="flex flex-wrap justify-center gap-5 border-2 mx-3 p-2 rounded-lg border-[#300046]"
+        class="flex flex-wrap justify-center gap-5 border border-violet-900/20 mx-3 p-2 rounded-lg bg-fuchsia-300/10"
       >
         <div
           *ngFor="let randomTile of randomTiles; index as i"
@@ -394,9 +410,10 @@
           'w-14':true,
           'md:h-16':true,
           'md:min-w-16':true,
-          'border-4':true,
-          'border-purple-950':selectedLetterIndex.includes(i)||countDown==0 ,
-          'border-purple-900':!selectedLetterIndex.includes(i),
+          'border-2':true,
+          'shadow-lg':true,
+          'border-fuchsia-500/20':selectedLetterIndex.includes(i)||countDown==0 ,
+          'border-fuchsia-400/20':!selectedLetterIndex.includes(i),
           'rounded-[10px]':true,
           'active:scale-105':!selectedLetterIndex.includes(i),
           'transition-all':true,
@@ -405,9 +422,9 @@
         >
           <h1
             [ngClass]="{
-              'text-purple-900':
+              'text-fuchsia-400/30':
                 selectedLetterIndex.includes(i) || countDown == 0,
-              'text-purple-500': !selectedLetterIndex.includes(i),
+              'text-fuchsia-400': !selectedLetterIndex.includes(i),
               'text-xl': true,
               'font-jetbrains': true,
               'font-[800]': true

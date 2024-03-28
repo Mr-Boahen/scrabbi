@@ -3,7 +3,7 @@ import { Router, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { wordDatabase } from '../wordDatabase';
-
+import { DatePipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 import { faShuffle } from '@fortawesome/free-solid-svg-icons';
@@ -26,7 +26,7 @@ import { LocalStorageService } from '../services/local-storage.service';
   standalone: true,
   imports: [RouterOutlet, FontAwesomeModule, CommonModule, RouterModule],
   templateUrl: './game.component.html',
-
+  providers: [DatePipe],
   animations: [
     trigger('fadeInAndPop', [
       transition(':enter', [
@@ -66,10 +66,15 @@ export class GameComponent implements OnInit {
   @Input() selectedLetters: string[] = [];
   tileHasBeenClicked: boolean = false;
   //Game variables
+  totalNumberOfWordsAtHighest:number=0
+  totalNumberOfWords:number=0
+  highestTimestamp: Date | undefined;
+  isHighestScore: boolean = false;
+  highestWordCount: number | undefined;
   highestScore: any;
   selectedTime: number | undefined;
   randomTiles: string[] = [];
-  submittedWords: string[] = [];
+  correctSubmittedWords: string[] = [];
   //This piece of creates an object with each letter and it's number of occurences in the randomTiles Array
   letterCount: { [key: string]: number } = this.randomTiles.reduce(
     (acc: { [key: string]: number }, current) => {
@@ -96,12 +101,13 @@ export class GameComponent implements OnInit {
   constructor(
     private database: DatabaseService,
     private router: Router,
-    private localStorage: LocalStorageService
+    private localStorage: LocalStorageService,
+    private datePipe: DatePipe
   ) {
     const userDetailsString = this.localStorage.getItem('userDetails');
     if (userDetailsString !== null) {
-        const userDetails = JSON.parse(userDetailsString);
- 
+      const userDetails = JSON.parse(userDetailsString);
+
       this.selectedTime =
         userDetails.gameHistory[userDetails.gameHistory.length - 1]?.gameTime ||
         30;
@@ -109,7 +115,8 @@ export class GameComponent implements OnInit {
         userDetails.gameHistory[userDetails.gameHistory.length - 1]?.gameTime ||
         30;
       this.highestScore = userDetails.highestScore;
-   
+      this.highestWordCount = userDetails.highestWordCount;
+      this.highestTimestamp = userDetails.highestTimestamp;
     } else {
       console.error('User details not found in localStorage.');
     }
@@ -139,33 +146,62 @@ export class GameComponent implements OnInit {
         this.countDown--;
       } else {
         this.submitWord();
-        this.stopCountdown();
+        this.stopCountdown(true);
       }
     }, 1000);
   }
-  stopCountdown() {
+  stopCountdown(toLeaderBoard: boolean) {
     clearInterval(this.setIntervalID);
     this.setIntervalID = 0;
-    this.highestScore =
-      this.highestScore > this.score ? this.highestScore : this.score;
-    this.database
-      .updateGameHistory({
-        wordCount: this.submittedWords.length,
-        score: this.score,
-        wordsPerMinute: 0,
-        accuracy: 0,
-        highestScore: this.highestScore,
-        gameTime: this.selectedTime,
-        timestamp: Date.now(),
-      })
-      .subscribe((data: any) => this.localStorage.setItem('userDetails', JSON.stringify(data)));
-    this.database.getLeaderBoard().subscribe((data: any) => {
-      this.localStorage.setItem('leaderBoard', JSON.stringify(data));
-      this.router.navigate(['leaderboard'])
+    if(toLeaderBoard){
+      if (this.highestScore > this.score) {
+     
+     
+        this.database
+        .updateGameHistory({
+          wordCount: this.correctSubmittedWords.length,
+          score: this.score,
+          wordsPerMinute: 0,
+          accuracy: 0,
+          gameTime: this.selectedTime,
+          isHighestScore:false,
+          timestamp: Date.now(),
+        })
+        .subscribe((data: any) =>
+          this.localStorage.setItem('userDetails', JSON.stringify(data))
+        );
+      } else if (this.score > this.highestScore) {
+       
+        this.database
+        .updateGameHistory({
+          wordCount: this.correctSubmittedWords.length,
+          score: this.score,
+          wordsPerMinute: 0,
+          accuracy: 0,
+          highestWordCount: this.correctSubmittedWords.length,
+          highestScore: this.score,
+          isHighestScore: true,
+          totalNumberOfWordsAtHighest:this.totalNumberOfWords,
+          gameTimeAtHighest:this.selectedTime,
+          highestTimestamp: `${this.datePipe.transform(
+            new Date(Date.now()),
+            'shortDate'
+          )}&${this.datePipe.transform(new Date(Date.now()), 'shortTime')}`,
+          gameTime: this.selectedTime,
+          timestamp: Date.now(),
+        })
+        .subscribe((data: any) =>
+          this.localStorage.setItem('userDetails', JSON.stringify(data))
+        );
+      }
       
-    });
-
-   
+      this.database.getLeaderBoard().subscribe((data: any) => {
+        this.localStorage.setItem('leaderBoard', JSON.stringify(data));
+        console.log(data)
+        toLeaderBoard && this.router.navigate(['leaderboard']);
+      });
+    }
+    
   }
 
   shuffleTiles() {
@@ -206,6 +242,7 @@ export class GameComponent implements OnInit {
   @HostListener('window:keydown', ['$event']) onTilePress(
     event: KeyboardEvent
   ) {
+    event.preventDefault()
     if (this.countDown > 0) {
       const key = event.key.toUpperCase();
       //This piece of code creates an array that holds the indexes where a tile occures in the randomTiles array
@@ -219,6 +256,14 @@ export class GameComponent implements OnInit {
           },
           []
         );
+        if (key == 'TAB') {
+          event.preventDefault();
+          this.restartGame();
+        }
+        if (key == 'ARROWUP' || key == 'ARROWDOWN') {
+          event.preventDefault();
+          this.shuffleTiles();
+        }
         if (this.randomTiles.includes(key) && this.letterCount[key] != 0) {
           //Starts the CountDown when a Tile is selected
           if (
@@ -282,12 +327,14 @@ export class GameComponent implements OnInit {
       //Checking if word is found inside Databse Array and has not been already submitted
       if (
         wordDatabase[this.selectedLetters.join('')] &&
-        !this.submittedWords.includes(this.selectedLetters.join(''))
+        !this.correctSubmittedWords.includes(this.selectedLetters.join(''))
       ) {
-        this.submittedWords.push(this.selectedLetters.join(''));
+        this.totalNumberOfWords++;
+        this.correctSubmittedWords.push(this.selectedLetters.join(''));
         this.score +=
           this.wordLengthAndScores[this.selectedLetters.join('').length];
       } else {
+        this.totalNumberOfWords++
         this.animationState = 'shake';
         setTimeout(() => {
           this.animationState = '';
@@ -314,8 +361,8 @@ export class GameComponent implements OnInit {
     this.selectedLetters = [];
     this.randomTiles = [];
     this.generateRandomTiles();
-    this.submittedWords = [];
-    this.stopCountdown();
+    this.correctSubmittedWords = [];
+    this.stopCountdown(false);
     if (this.selectedTime) {
       this.countDown = this.selectedTime;
     }

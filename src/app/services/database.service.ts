@@ -19,6 +19,7 @@ export class DatabaseService {
     return this.http.post(`${environment.databaseUrl}/login`, data);
   }
   updateGameHistory(data: any): any {
+   
     const userDetailsString = this.localStorage.getItem('userDetails');
     if (userDetailsString !== null) {
       const userDetails = JSON.parse(userDetailsString);

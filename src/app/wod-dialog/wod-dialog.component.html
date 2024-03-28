@@ -1,13 +1,71 @@
-<div class="absolute   top-[10%] z-50 w-[100%] h-[90vh] flex justify-center ">
+<div class="absolute top-[10%] z-50 w-[100%] h-[90vh] flex justify-center">
   <div
-    class="bg-white  pt-28 flex justify-center  text-black w-[80%] lg:w-[50%] mx-auto h-[90%] rounded-lg  "
+    class="bg-fuchsia-300/10 pt-28 flex justify-center w-[80%] lg:w-[50%] mx-auto h-[90%] rounded-lg"
   >
-    <div class="h-[50%] w-[80%] sm:w-[60%] lg:w-[70%] -mt-20 text-justify">
-      <p class="text-black mb-5 font-splinesans text-lg ">Word Of The Day</p>
-      <h1 class="font-lora italic font-[500] text-2xl">
-        {{ wordOfTheDay?.word }}
-      </h1>
-      <h2 class="italic mt-5 font-semibold font-jetbrains">Definition</h2>
+    <div class="h-[50%]  px-5 mt-10 w-[85%] sm:w-[60%] lg:w-[70%] text-justify">
+      <p class="text-center -mt-10 mb-10 text-fuchsia-100 font-signika  text-lg">Word Of The Day</p>
+
+    
+      <div class=" min-h-52 pb-5 w-full rounded-lg">
+       <div class="flex xl:flex-row flex-col xl:items-center gap-3 ">
+        <h1 class="font-lora text-fuchsia-300 italic font-[500] text-xl">
+          {{ wordOfTheDay?.word }}
+        </h1>
+        <div class="flex gap-3 cursor-pointer">
+          <div
+          (click)="scrollToDetails(0)"
+          [ngClass]="{'bg-fuchsia-300':scrollAmount!=0,'bg-gray-200':scrollAmount==0, 'hover:bg-gray-200':true, 'transition-all':true, 'duration-150':true, 'ease-in-out':true, 'px-2':true,'w-20':true, 'grid':true, 'place-items-center':true,  'text-purple-900':true,   'rounded-md':true}"
+            class=""
+          >
+            <h2 class=" text-[11px] font-semibold font-jetbrains">definition</h2>
+          </div>
+          <div
+          (click)="scrollToDetails(450)"
+          [ngClass]="{'bg-fuchsia-300':scrollAmount!=450,'bg-gray-200':scrollAmount==450, 'hover:bg-gray-200':true, 'transition-all':true, 'duration-150':true, 'ease-in-out':true, 'px-2':true,'w-20':true, 'grid':true, 'place-items-center':true,  'text-purple-900':true,   'rounded-md':true}"
+          >
+            <h2 class=" text-[11px] font-semibold font-jetbrains">examples</h2>
+          </div>
+          <div
+          (click)="scrollToDetails(900)"
+          [ngClass]="{'bg-fuchsia-300':scrollAmount!=900,'bg-gray-200':scrollAmount==900, 'hover:bg-gray-200':true, 'transition-all':true, 'duration-150':true, 'ease-in-out':true, 'px-2':true,'w-20':true, 'grid':true, 'place-items-center':true,  'text-purple-900':true,   'rounded-md':true}"
+          >
+            <h2 class="my-1 text-[11px] font-semibold font-jetbrains">notes</h2>
+          </div>
+        </div>
+       </div>
+
+       <div class="word-of-the-day-scrollbar snap-x snap-mandatory mt-3 rounded-lg bg-fuchsia-300/10 max-w-[446px] overflow-x-scroll   flex flex-nowrap  ">
+        <div class=" shrink-0 w-[100%] snap-center  p-5">
+          <div
+          class="mb-3 text-fuchsia-100 "
+            *ngFor="let definition of wordOfTheDay?.definitions; let i = index"
+          >
+            <li class="font-jetbrains text-sm">{{ definition?.text }}</li>
+          </div>
+        
+       </div>
+       <div class=" w-[100%] shrink-0  snap-center p-5">
+        <div
+          class="mb-3 text-fuchsia-100"
+          *ngFor="let example of wordOfTheDay?.examples; let i = index"
+        >
+          <li class="font-jetbrains text-sm">{{ example?.text }}</li>
+        </div>
+          
+        </div>
+        <div class="w-[100%] shrink-0 p-5 snap-center text-fuchsia-100">
+           <p >
+          <span class="italic font-bold font-jetbrains text-sm">{{
+            wordOfTheDay?.note
+          }}</span>
+        </p>
+        </div>
+       
+      </div>
+    </div>
+  </div>
+</div>
+<!-- <h2 class="italic mt-5 font-semibold font-jetbrains">Definition</h2>
       <div class="mt-3 border-l-2 border-black pl-5">
         <div
         class="mb-3"
@@ -30,8 +88,4 @@
         <span class="italic font-bold font-jetbrains text-sm">{{
           wordOfTheDay?.note
         }}</span>
-      </p>
-    </div>
-    
-  </div>
-</div>
+      </p> -->
