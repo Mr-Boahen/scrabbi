@@ -5,8 +5,8 @@
     alt="background-image"
   />
   <div class="relative top-10 z-20 w-[100%] flex items-center">
-    <div title="home"  class="flex gap-4 items-center w-[80%] lg:w-[50%] mx-auto">
-      <h1  routerLink="/" class=" text-fuchsia-200 text-lg font-jetbrains  cursor-pointer">Scrabbi</h1>
+    <div  class="flex gap-4 items-center w-[80%] lg:w-[50%] mx-auto">
+      <h1 title="home" routerLink="/" class=" text-fuchsia-200 text-lg font-jetbrains  cursor-pointer">Scrabbi</h1>
 
       <div class="flex items-baseline gap-4">
         <div
@@ -15,10 +15,10 @@
    
           class="active:scale-110 cursor-pointer"
         >
-          <fa-icon
-            [icon]="faCrown"
-            class="text-purple-800 text-[17px]"
-          ></fa-icon>
+        <fa-icon
+        [icon]="faCrown"
+        class="text-fuchsia-400  text-[17px]"
+      ></fa-icon>
         </div>
         <div
           title="word of the day"
@@ -27,7 +27,7 @@
         >
           <fa-icon
             [icon]="faBook"
-            class="text-purple-800 text-[16px]"
+            class="text-fuchsia-400  text-[16px]"
           ></fa-icon>
         </div>
         <div
@@ -37,11 +37,26 @@
         >
           <fa-icon
             [icon]="faInfo"
-            class="text-purple-800 text-[18px]"
+            class="text-fuchsia-400  text-[18px]"
           ></fa-icon>
         </div>
+       
       </div>
+      <div 
+   
+      title="login"
+      routerLink="login"
+      class="w-[100%] flex justify-end"
+    >
+      <fa-icon
+      *ngIf="checkLocalHost()"
+       (click)="logout()"
+        [icon]="faLogout"
+        class="text-fuchsia-500 cursor-pointer text-[18px]"
+      ></fa-icon>
     </div>
+    </div>
+    
   </div>
  
 

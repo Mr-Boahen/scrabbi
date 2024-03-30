@@ -37,7 +37,7 @@ export class WodDialogComponent {
   scrollToDetails(amount:number){
     this.scrollAmount=amount
     document.querySelector('.word-of-the-day-scrollbar')?.scroll({
-      top: amount,
+      top: 0,
       left: amount,
       behavior: "smooth",
     });

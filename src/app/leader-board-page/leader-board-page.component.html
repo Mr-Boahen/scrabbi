@@ -48,10 +48,21 @@
               class="text-gray-200 text-sm rounded-lg overflow-hidden font-bold px-3 h-12 font-jetbrains"
             >
               <td
+              *ngIf="i+1!=1"
                 class="text-[12px] bg-fuchsia-500/10 shadow-md rounded-l-md pl-4"
               >
                 {{ i + 1 }}
               </td>
+              <td
+              *ngIf="i+1==1"
+                class=" bg-fuchsia-500/10 shadow-md rounded-l-md pl-4"
+              >
+              <fa-icon
+              [icon]="faCrown"
+              class="text-fuchsia-300  text-[13px]"
+            ></fa-icon>
+              </td>
+           
               <td class="w-[40%]  text-[12px] bg-fuchsia-500/10 shadow-md">
                 <div class="flex gap-2">
                     <h2 class="cursor-pointer">{{ user.username }}</h2>

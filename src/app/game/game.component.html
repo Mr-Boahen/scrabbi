@@ -120,7 +120,7 @@
     </div>
     <div class="absolute z-30 top-[20%] sm:top-[25%] w-[100%]">
       <div
-        class="h-[35%] w-[95%] md:w-[80%] lg:w-[95%] xl:w-[80%] mx-auto px-2 bg-fuchsia-300/10 border-2 border-transparent shadow-md rounded-lg"
+        class="h-[35%] w-[95%] md:w-[80%] lg:w-[95%] xl:w-[80%] mx-auto px-2 bg-fuchsia-900/10 border-2 border-transparent shadow-md rounded-lg"
       >
        
 
@@ -129,35 +129,35 @@
           *ngIf="selectedLetters"
           class="flex sm:justify-center gap-1 mt-10 w-[100%]"
         >
-          <div
-            (click)="removeSelectedTiles(0)"
-            [ngClass]="{
-              'cursor-pointer': true,
-              'grid': true,
-              'place-items-center': true,
-              'h-14': true,
-              'w-14': true,
-              'md:min-h-16': true,
-              'md:min-w-16': true,
-              'border-[2px]': true,
-              'shadow-lg':true,
-              'border-fuchsia-400/20':animationState=='',
-              'border-red-800':animationState=='shake',
-              'rounded-[10px]': true,
-              'active:scale-105': true,
-              'transition-all': true,
-              'duration-100': true,
-              'ease-in-out': true
-            }"
+        <div [ngClass]="{
+          'cursor-pointer': true,
+          'grid': true,
+          'place-items-center': true,
+          'h-14': true,
+          'w-14': true,
+          'md:min-h-16': true,
+          'md:min-w-16': true,
+          'border-[2px]': true,
+          'shadow-lg':true,
+          'border-fuchsia-400/20':animationState=='',
+          'border-red-800':animationState=='shake',
+          'rounded-[10px]': true,
+          'active:scale-105': true,
+          'transition-all': true,
+          'duration-100': true,
+          'ease-in-out': true
+        }"
+          (click)="removeSelectedTiles(0)"
+          class="cursor-pointer grid place-items-center h-14 w-14 md:h-16 md:min-w-16 border-4 border-purple-900 rounded-[10px] active:scale-105 transition-all duration-100 ease-in-out"
+        >
+          <h1
+            [@fadeInAndPop]
+            *ngIf="selectedLetters[0]"
+            class="text-purple-500 text-lg font-jetbrains font-[800]"
           >
-            <h1
-              [@fadeInAndPop]
-              *ngIf="selectedLetters[0]"
-              class="text-purple-500 text-lg font-jetbrains font-[800]"
-            >
-              {{ selectedLetters[0] }}
-            </h1>
-          </div>
+            {{ selectedLetters[0] }}
+          </h1>
+        </div>
           <div [ngClass]="{
             'cursor-pointer': true,
             'grid': true,
@@ -363,6 +363,7 @@
       class="absolute z-20 flex flex-col w-[100%] gap-7 h-[80%] mt-[40px] sm:mt-[80px] md:mt-[40px] lg:mt-[120px] xl:mt-[50px] items-center justify-end pb-10 sm:pb-16"
     >
       <div
+      *ngIf="gameHasStarted"
         (click)="submitWord()"
         class="cursor-pointer w-full flex items-center justify-center"
       >
@@ -390,16 +391,46 @@
             'ease-in-out': true
           }"
         >
-          ENTER
+          enter
+        </h1>
+      </div>
+      <div
+      *ngIf="gameHasStarted==false"
+       
+        class=" w-full flex items-center justify-center"
+      >
+        <h1
+        (click)="startCountdown()"
+          [ngClass]="{
+           
+            'cursor-pointer':true,
+            'text-lg': true,
+            'font-jetbrains': true,
+            'bg-fuchsia-300':true,
+            'rounded-lg': true,
+            'px-5': true,
+            'py-1': true,
+            'text-purple-900': true,
+            'font-extrabold': true,
+            'hover:bg-purple-950': true,
+            'hover:text-fuchsia-300': true,
+            'active:scale-105': true,
+            'transition-all': true,
+            'duration-100': true,
+            'ease-in-out': true
+          }"
+        >
+          start
         </h1>
       </div>
       <!-- 'border-[2px]': true,
       'shadow-lg':true,
       'border-fuchsia-400/20':animationState=='', -->
       <div
-        class="flex flex-wrap justify-center gap-5 border border-violet-900/20 mx-3 p-2 rounded-lg bg-fuchsia-300/10"
+        class="flex flex-wrap justify-center gap-5 border border-violet-900/20 mx-3 p-2 rounded-lg bg-fuchsia-900/30"
       >
         <div
+      
           *ngFor="let randomTile of randomTiles; index as i"
           (click)="onTileClick($event, i)"
           [ngClass]="{'relative':true,
@@ -418,9 +449,11 @@
           'active:scale-105':!selectedLetterIndex.includes(i),
           'transition-all':true,
           'duration-100':true,
-          'ease-in-out':true,}"
+          'ease-in-out':true,
+          }"
         >
-          <h1
+          <h1 *ngIf="gameHasStarted"
+          [@fadeInAndPop]
             [ngClass]="{
               'text-fuchsia-400/30':
                 selectedLetterIndex.includes(i) || countDown == 0,

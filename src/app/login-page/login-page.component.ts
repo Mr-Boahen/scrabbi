@@ -45,16 +45,16 @@ export class LoginPageComponent {
   }
   get username(){
     return this.loginForm.get('username')
+    
   }
 onSubmit(){
     if(this.loginForm?.valid){
       this.db.loginUser(this.loginForm.value).subscribe((data)=>{
           this.localStorage.setItem('userDetails',JSON.stringify(data))
+          
           this.router.navigate([''])
 
-      })
-    }else{
-      console.error('Invalid form data.Please check the fields')
+      },(error)=>{console.error('An error occured:',error)})
     }
 }
 }

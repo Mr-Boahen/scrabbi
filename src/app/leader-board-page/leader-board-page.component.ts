@@ -2,8 +2,10 @@ import { Component } from '@angular/core';
 import { LocalStorageService } from '../services/local-storage.service';
 import { CommonModule, DatePipe } from '@angular/common';
 
-import { faPerson, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faCrown, faPerson, faUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { DatabaseService } from '../services/database.service';
+import { Router } from '@angular/router';
 
 export interface User {
   id: number;
@@ -33,17 +35,21 @@ export interface User {
 export class LeaderBoardPageComponent {
   usersRanked: [User] | undefined;
   faUser = faUser;
+  faCrown = faCrown;
   username: string = '';
 
-  constructor(private localStorage: LocalStorageService) {
+  constructor( private database: DatabaseService,
+    private router: Router,
+    private localStorage: LocalStorageService,
+    ) {
+    this.database.getLeaderBoard().subscribe((data: any) => {
+      this.localStorage.setItem('leaderBoard', JSON.stringify(data));
+    });
     const leaderBoard = this.localStorage.getItem('leaderBoard');
     if (leaderBoard !== null) {
       const leaderBoardDetails = JSON.parse(leaderBoard);
       this.usersRanked = leaderBoardDetails;
-      console.log(
-        'helllo',
-        this.usersRanked && this.usersRanked[0].highestWordCount
-      );
+     
     } else {
       console.error('User details not found in localStorage.');
     }
