@@ -5,6 +5,7 @@ import { DatabaseService } from '../services/database.service';
 import { LocalStorageService } from '../services/local-storage.service';
 import { Router, RouterModule } from '@angular/router';
 import { animate, style, transition, trigger } from '@angular/animations';
+import { error } from 'console';
 
 @Component({
   selector: 'app-register-page',
@@ -35,6 +36,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
 })
 export class RegisterPageComponent {
   registerationForm:FormGroup;
+  errorMessage:object | undefined;
   constructor(private fb:FormBuilder,private db:DatabaseService,private localStorage:LocalStorageService,private router:Router){
     this.registerationForm=this.fb.group({
       username:['',[Validators.required,Validators.minLength(8)]],
@@ -50,9 +52,9 @@ onSubmit(event:any){
           this.localStorage.setItem('userDetails',JSON.stringify(data))
           this.router.navigate([''])
 
+      },(error)=>{
+this.errorMessage=error.error.message
       })
-    }else{
-      console.error('Invalid form data.Please check the fields')
     }
 }
 }

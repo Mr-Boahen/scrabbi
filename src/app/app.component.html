@@ -44,11 +44,21 @@
       </div>
       <div 
    
-      title="login"
-      routerLink="login"
-      class="w-[100%] flex justify-end"
-    >
+     
+     
+      class="w-[100%] flex justify-end gap-10"
+    > 
+
       <fa-icon
+      *ngIf="checkLocalHost()"
+      title="profile"
+      routerLink="profile"
+        [icon]="faUser"
+        class="text-fuchsia-500 cursor-pointer text-[18px]"
+      ></fa-icon>
+      <fa-icon
+      routerLink="login"
+      title="login"
       *ngIf="checkLocalHost()"
        (click)="logout()"
         [icon]="faLogout"

@@ -54,4 +54,42 @@ export class DatabaseService {
       console.error('Could not get LeaderBoard');
     }
   }
+  getUserProfile():any{
+    const userDetailsString = this.localStorage.getItem('userDetails');
+    if (userDetailsString !== null) {
+      const userDetails = JSON.parse(userDetailsString);
+      return this.http.get(
+        `${environment.databaseUrl}/userProfile`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${userDetails.token}`,
+          },
+        }
+      ); // Access userDetails object
+    } else {
+      console.error('Could not get LeaderBoard');
+    }
+  }
+
+  updateAvatar(data: any): any {
+   
+    const userDetailsString = this.localStorage.getItem('userDetails');
+    if (userDetailsString !== null) {
+      const userDetails = JSON.parse(userDetailsString);
+      return this.http.put(
+        `${environment.databaseUrl}/updateAvatar`,
+        data,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${userDetails.token}`,
+          },
+        }
+      ); // Access userDetails object
+    } else {
+      console.error('User details not found in localStorage.');
+    }
+  }
+  
 }

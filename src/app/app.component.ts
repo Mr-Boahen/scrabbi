@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { WordOfTheDayServiceService } from './services/word-of-the-day-service.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faArrowRightFromBracket, faBook, faCrown, faInfo } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRightFromBracket, faBook, faCrown, faInfo, faUser } from '@fortawesome/free-solid-svg-icons';
 import {
   trigger,
   state,
@@ -38,6 +38,7 @@ export class AppComponent {
   faBook = faBook;
   faInfo = faInfo;
   faCrown = faCrown;
+  faUser = faUser;
   faLogout = faArrowRightFromBracket;
 
   constructor(router: Router, wod: WordOfTheDayServiceService,private localStorage:LocalStorageService) {

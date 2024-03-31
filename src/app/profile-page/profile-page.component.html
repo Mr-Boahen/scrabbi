@@ -1,0 +1,49 @@
+
+<div class="absolute top-[10%] z-50 w-[100%] h-[90vh] flex justify-center">
+  <div
+    class="bg-fuchsia-300/10 p-10 flex justify-center w-[80%] lg:w-[50%] mx-auto h-[90%] rounded-lg"
+  >
+  <div class="h-52 w-full p-5 rounded-lg bg-fuchsia-300/10 flex gap-4">
+    <div class="h-full w-[280px] flex items-center shadow-xl shrink-0 border border-fuchsia-300/20 bg-fuchsia-400/10 rounded-md p-4">
+        <div class="flex items-center  justify-between w-full">
+            <div *ngIf="userInfo.avatar==''" title="edit" class="h-16 w-16 rounded-full bg-black/30 border border-fuchsia-300/30">
+                <div class="relative">
+                   <fa-icon class="absolute top-0 left-[14px] text-black/30 text-2xl" [icon]="faUser"></fa-icon>
+                    <input accept="image/*" (change)="handleAvatarUpload($event)" type="file" class="absolute z-10 opacity-0 h-16 w-16  bg-red-400 rounded-full ">
+                </div>
+                
+            </div>
+            <div  *ngIf="userInfo.avatar" title="avatar" class="h-16 w-16 rounded-full bg-black/30 border border-fuchsia-300/30">
+                <img class="h-16 w-16  object-cover rounded-full" src="data:image/png;base64,{{userInfo.avatar}}" alt="avatar">
+                
+            </div>
+            <div>
+               <h1 class="text-xl font-jetbrains font-bold text-fuchsia-300">{{userInfo.username}}</h1> 
+               <h1 class="text-[11px] font-jetbrains font-bold text-fuchsia-300/60">Joined 12th may,2022</h1>
+            </div>
+        </div>
+    </div>
+    <div class="h-full w-[100%] text-white shadow-xl flex border border-fuchsia-300/10  bg-fuchsia-300/10 rounded-md flex-wrap items-center justify-around">
+            
+            <div class="bg-black/20 w-20 border border-fuchsia-300/30 h-20 rounded-lg px-2 flex flex-col gap-2 pt-1 " >
+                <h1 class=" text-[10px] font-jetbrains  text-fuchsia-300/60">tests started</h1>
+                <h1 class="text-sm font-jetbrains text-fuchsia-300">4300</h1>
+            </div>
+            
+            <div class="bg-black/20 border border-fuchsia-300/30 w-20 h-20 rounded-lg px-2 flex flex-col gap-2 pt-1 " >
+                <h1 class=" text-[10px] font-jetbrains  text-fuchsia-300/60">test completed</h1>
+                <h1 class="text-sm font-jetbrains text-fuchsia-300">{{userInfo.gameHistory.length}}</h1>
+            </div>
+            
+            <div class="bg-black/20 w-20 border border-fuchsia-300/30 h-20 rounded-lg px-2 flex flex-col gap-2 pt-1 " >
+                <h1 class=" text-[10px] font-jetbrains  text-fuchsia-300/60">time typing</h1>
+                <h1 class="text-sm font-jetbrains text-fuchsia-300">16:00:11</h1>
+            </div>
+            
+           
+            
+    </div>
+  </div>
+  
+  </div>
+</div>

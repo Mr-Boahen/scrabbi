@@ -4,6 +4,7 @@ import { GameComponent } from './game/game.component';
 import { RegisterPageComponent } from './register-page/register-page.component';
 import { LoginPageComponent } from './login-page/login-page.component';
 import { LeaderBoardPageComponent } from './leader-board-page/leader-board-page.component';
+import { ProfilePageComponent } from './profile-page/profile-page.component';
 
 export const routes: Routes = [
   {
@@ -31,6 +32,11 @@ export const routes: Routes = [
     path:'leaderboard',
     component:LeaderBoardPageComponent,
     title:"leaderBoard"
+  },
+  {
+    path:'profile',
+    component:ProfilePageComponent,
+    title:"profile"
   },
   
 ];

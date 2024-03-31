@@ -191,10 +191,11 @@ export class GameComponent implements OnInit {
           })
           .subscribe((data: any) => {
             this.localStorage.setItem('userDetails', JSON.stringify(data));
+            this.router.navigate(['leaderboard'])
           });
       }
       this.gameHasStarted=false
-      this.router.navigate(['leaderboard'])
+      
     }
   }
 

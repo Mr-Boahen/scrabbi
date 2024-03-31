@@ -37,6 +37,7 @@ import { RouterModule } from '@angular/router';
 })
 export class LoginPageComponent {
   loginForm:FormGroup;
+  errorMessage:object | undefined;
   constructor(private fb:FormBuilder,private db:DatabaseService,private localStorage:LocalStorageService,private router:Router){
     this.loginForm=this.fb.group({
       username:['',[Validators.required,Validators.minLength(8)]],
@@ -54,7 +55,7 @@ onSubmit(){
           
           this.router.navigate([''])
 
-      },(error)=>{console.error('An error occured:',error)})
+      },(error)=>{this.errorMessage=error.error.message})
     }
 }
 }
