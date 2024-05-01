@@ -1,0 +1,14 @@
+*::-webkit-scrollbar {
+    width: 3px !important;
+    background-color: rgba(5, 0, 0, 0.185) !important;
+    border-radius: 10px !important;
+  }
+  
+  *::-webkit-scrollbar-thumb {
+    width: 2px !important;
+    background-color: rgba(142, 88, 194, 0.89) !important;
+    border-radius: 5px !important;
+  }
+
+
+  

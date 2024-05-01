@@ -6,11 +6,13 @@ import { LocalStorageService } from '../services/local-storage.service';
 import { Router, RouterModule } from '@angular/router';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { error } from 'console';
+import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @Component({
   selector: 'app-register-page',
   standalone: true,
-  imports: [ReactiveFormsModule,FormsModule,CommonModule,RouterModule],
+  imports: [ReactiveFormsModule,FormsModule,CommonModule,RouterModule,FontAwesomeModule],
   templateUrl: './register-page.component.html',
   animations: [
     trigger('fadeInAndPop', [
@@ -37,6 +39,12 @@ import { error } from 'console';
 export class RegisterPageComponent {
   registerationForm:FormGroup;
   errorMessage:object | undefined;
+
+  faEye=faEye
+  faEyeSlash=faEyeSlash
+
+
+  showPassword:boolean=false;
   constructor(private fb:FormBuilder,private db:DatabaseService,private localStorage:LocalStorageService,private router:Router){
     this.registerationForm=this.fb.group({
       username:['',[Validators.required,Validators.minLength(8)]],

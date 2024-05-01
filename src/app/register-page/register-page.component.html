@@ -43,11 +43,17 @@
                 </h2>
               </div>
             </div>
-            <div class="h-16 w-60 mb-5">
+            <div class="relative h-16 w-60 mb-5">
+              <div (click)="showPassword=!showPassword">
+                <fa-icon
+                  class="absolute right-3 top-[6px] text-fuchsia-300"
+                  [icon]="showPassword ? faEye : faEyeSlash"
+                ></fa-icon>
+              </div>
               <input
                 formControlName="password"
-                placeholder="passoword"
-                type="password"
+                placeholder="password"
+                [type]="showPassword?'text':'password'"
                 id="password"
                 class="h-9 border w-[100%]  rounded-md text-center focus:bg-transparent focus:border-2 focus:border-fuchsia-400/50 border-fuchsia-300/20 bg-fuchsia-300/10  outline-none p-3 font-jetbrains font-bold text-sm text-purple-300 placeholder-fuchsia-300/30 transition-all duration-100 ease-in-out"
               />
@@ -73,7 +79,7 @@
           </h2>
            </div>
           <button
-            class="font-jetbrains w-28 font-bold text-sm bg-fuchsia-300 active:scale-95 text-purple-900 px-3 py-1 rounded-md"
+            class="font-jetbrains hover:bg-white transition-all duration-200 ease-in-out w-28 font-bold text-sm bg-fuchsia-300 active:scale-95 text-purple-900 px-3 py-1 rounded-md"
           >
             sign up
           </button>

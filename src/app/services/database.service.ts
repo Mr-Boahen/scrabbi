@@ -54,7 +54,7 @@ export class DatabaseService {
       console.error('Could not get LeaderBoard');
     }
   }
-  getUserProfile():any{
+  getUserProfile():Observable<object> | null{
     const userDetailsString = this.localStorage.getItem('userDetails');
     if (userDetailsString !== null) {
       const userDetails = JSON.parse(userDetailsString);
@@ -68,7 +68,9 @@ export class DatabaseService {
         }
       ); // Access userDetails object
     } else {
+
       console.error('Could not get LeaderBoard');
+      return null
     }
   }
 

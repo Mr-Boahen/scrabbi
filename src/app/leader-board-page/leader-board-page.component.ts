@@ -2,13 +2,13 @@ import { Component } from '@angular/core';
 import { LocalStorageService } from '../services/local-storage.service';
 import { CommonModule, DatePipe } from '@angular/common';
 
-import { faCrown, faPerson, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faCrown, faUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { DatabaseService } from '../services/database.service';
 import { Router } from '@angular/router';
 
 export interface User {
-  id: number;
+  _id: string;
   username: string;
   highestScore: number;
   gameHistory: [object];
@@ -19,8 +19,9 @@ export interface User {
   highestWordCount: number;
   ratings: number;
   highestTimestamp: string;
-  totalNumberOfWordsAtHighest:number,
-  gameTimeAtHighest:number,
+  numberOfRestarts: number;
+  totalNumberOfWordsAtHighest: number;
+  gameTimeAtHighest: number;
   timestamp: string;
 }
 
@@ -30,39 +31,54 @@ export interface User {
   imports: [CommonModule, FontAwesomeModule],
   providers: [DatePipe],
   templateUrl: './leader-board-page.component.html',
-  styleUrl:'./leader-board.component.css'
+  styleUrl: './leader-board.component.css',
 })
 export class LeaderBoardPageComponent {
   usersRanked: [User] | undefined;
   faUser = faUser;
   faCrown = faCrown;
-  username: string = '';
+  userID: string = '';
 
-  constructor( private database: DatabaseService,
+  constructor(
+    private database: DatabaseService,
     private router: Router,
-    private localStorage: LocalStorageService,
-    ) {
-    this.database.getLeaderBoard().subscribe((data: any) => {
-      this.localStorage.setItem('leaderBoard', JSON.stringify(data));
-    });
+    private localStorage: LocalStorageService
+  ) {
     const leaderBoard = this.localStorage.getItem('leaderBoard');
-    if (leaderBoard !== null) {
+
+    if (leaderBoard) {
       const leaderBoardDetails = JSON.parse(leaderBoard);
       this.usersRanked = leaderBoardDetails;
-     
+      const userDetailsString = this.localStorage.getItem('userDetails');
+      if (userDetailsString !== null) {
+        const userDetails = JSON.parse(userDetailsString);
+        this.userID = userDetails._id;
+      } else {
+        console.error('User details not found in localStorage.');
+      }
     } else {
-      console.error('User details not found in localStorage.');
+      this.database.getLeaderBoard().subscribe((data: any) => {
+        this.localStorage.setItem('leaderBoard', JSON.stringify(data));
+        const leaderBoard = this.localStorage.getItem('leaderBoard');
+        if (leaderBoard) {
+          const leaderBoardDetails = JSON.parse(leaderBoard);
+          this.usersRanked = leaderBoardDetails;
+        }
+        const userDetailsString = this.localStorage.getItem('userDetails');
+        if (userDetailsString !== null) {
+          const userDetails = JSON.parse(userDetailsString);
+          this.userID = userDetails._id;
+        } else {
+          console.error('User details not found in localStorage.');
+        }
+    
+        console.log(this.usersRanked);
+      });
     }
-    const userDetailsString = this.localStorage.getItem('userDetails');
-    if (userDetailsString !== null) {
-      const userDetails = JSON.parse(userDetailsString);
-      this.username = userDetails.username;
-    } else {
-      console.error('User details not found in localStorage.');
-    }
+   
   }
 
-  getRoundedValue(number:number){
-    return Number(number.toPrecision(4))
+  getRoundedValue(number: number) {
+    return Number(number.toPrecision(4));
   }
 }

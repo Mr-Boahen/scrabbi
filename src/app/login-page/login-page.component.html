@@ -1,35 +1,39 @@
-
 <div class="absolute top-[10%] z-50 w-[100%] h-[90vh] flex justify-center">
   <div
     class="pt-28 flex justify-center w-[80%] lg:w-[50%] mx-auto h-[90%] rounded-lg"
   >
-    <div class="bg-fuchsia-900/20 p-3  min-w-[277px] h-[50%] rounded-md mt-24">
+    <div class="bg-fuchsia-900/20 p-3 min-w-[277px] h-[50%] rounded-md mt-24">
       <div
-        class="bg-fuchsia-300/10 shadow-[1px_0px_78px_0px_rgba(0,0,0,0.75)] rounded-lg h-full  min-w-[277px] mx-auto"
+        class="bg-fuchsia-300/10 shadow-[1px_0px_78px_0px_rgba(0,0,0,0.75)] rounded-lg h-full min-w-[277px] mx-auto"
       >
         <form
           [formGroup]="loginForm"
           (ngSubmit)="onSubmit()"
           class="flex flex-col items-center justify-center gap-3 h-full"
         >
-            <label>
-              <h2 class="text-lg font-bold mb-12 font-splinesans text-fuchsia-300">login</h2>
-            </label>
-  
+          <label>
+            <h2
+              class="text-lg font-bold mb-12 font-splinesans text-fuchsia-300"
+            >
+              login
+            </h2>
+          </label>
+
           <div class="flex flex-col gap-4 items-center justify-center h-28">
-            <div class="h-16 w-60">
+            <div class="relative h-16 w-60">
+              
               <input
                 formControlName="username"
                 placeholder="username"
                 type="text"
                 required
                 id="username"
-                class="h-9 w-[100%] border text-center focus:bg-transparent rounded-md focus:border-2 focus:border-fuchsia-400/50 border-fuchsia-300/20 bg-fuchsia-300/10  outline-none  font-splinesans font-bold text-sm px-3 text-purple-300 placeholder-fuchsia-300/30 transition-all duration-100 ease-in-out"
+                class="h-9 w-[100%] border text-center focus:bg-transparent rounded-md focus:border-2 focus:border-fuchsia-400/50 border-fuchsia-300/20 bg-fuchsia-300/10 outline-none font-splinesans font-bold text-sm px-3 text-purple-300 placeholder-fuchsia-300/30 transition-all duration-100 ease-in-out"
               />
               <div class="h-14 overflow-hidden">
                 <h1
                   [@fadeInAndPop]
-                  class="text-[11px] mt-3 font-jetbrains  font-extrabold text-red-400"
+                  class="text-[11px] mt-3 font-jetbrains font-extrabold text-red-400"
                   *ngIf="loginForm.get('username')?.invalid && (!loginForm.get('username')?.errors?.['minlength'])"
                 >
                   username is required
@@ -43,42 +47,51 @@
                 </h2>
               </div>
             </div>
-            <div class="h-16 w-60 mb-5">
+            <div class=" relative h-16 w-60 mb-5">
+              <div (click)="showPassword=!showPassword">
+                <fa-icon
+                  class="absolute right-3 top-[6px] text-fuchsia-300"
+                  [icon]="showPassword ? faEye : faEyeSlash"
+                ></fa-icon>
+              </div>
               <input
                 formControlName="password"
                 placeholder="passoword"
-                type="password"
+                [type]="showPassword?'text':'password'"
                 id="password"
-                class="h-9 border w-[100%]  rounded-md text-center focus:bg-transparent focus:border-2 focus:border-fuchsia-400/50 border-fuchsia-300/20 bg-fuchsia-300/10  outline-none p-3 font-jetbrains font-bold text-sm text-purple-300 placeholder-fuchsia-300/30 transition-all duration-100 ease-in-out"
+                class="h-9 border w-[100%] rounded-md text-center focus:bg-transparent focus:border-2 focus:border-fuchsia-400/50 border-fuchsia-300/20 bg-fuchsia-300/10 outline-none p-3 font-jetbrains font-bold text-sm text-purple-300 placeholder-fuchsia-300/30 transition-all duration-100 ease-in-out"
               />
-             <div class="h-14">
-              <h2
-              [@fadeInAndPopPasswordError]
-              class="text-[11px] font-jetbrains mt-1 font-extrabold text-red-400"
-              *ngIf="loginForm.get('password')?.errors?.['minlength']"
-            >
-              username must be at least 4 characters long
-            </h2>
-             </div>
+              <div class="h-14">
+                <h2
+                  [@fadeInAndPopPasswordError]
+                  class="text-[11px] font-jetbrains mt-1 font-extrabold text-red-400"
+                  *ngIf="loginForm.get('password')?.errors?.['minlength']"
+                >
+                  username must be at least 4 characters long
+                </h2>
+              </div>
             </div>
           </div>
           <div>
             <h2
-            [@fadeInAndPopPasswordError]
-            class="text-[11px] font-jetbrains  font-extrabold text-red-400"
-          >
-        {{errorMessage}}
-          </h2>
-           </div>
+              [@fadeInAndPopPasswordError]
+              class="text-[11px] font-jetbrains font-extrabold text-red-400"
+            >
+              {{ errorMessage }}
+            </h2>
+          </div>
           <button
-            class="font-jetbrains w-28 font-bold text-sm bg-fuchsia-300 active:scale-95 text-purple-900 px-3 py-1 rounded-md"
+            class="font-jetbrains hover:bg-white transition-all duration-200 ease-in-out w-28 font-bold text-sm bg-fuchsia-300 active:scale-95 text-purple-900 px-3 py-1 rounded-md"
           >
             login
           </button>
           <h1 class="text-[11px] font-splinesans text-fuchsia-300">
             You don't have an account?
-            <span class="cursor-pointer ml-1 underline active:scale-95" href=""
-            routerLink='/register'  >Sign-up</span
+            <span
+              class="cursor-pointer ml-1 underline active:scale-95"
+              href=""
+              routerLink="/register"
+              >Sign-up</span
             >
           </h1>
         </form>

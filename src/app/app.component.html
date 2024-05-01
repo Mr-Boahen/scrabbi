@@ -5,20 +5,25 @@
     alt="background-image"
   />
   <div class="relative top-10 z-20 w-[100%] flex items-center">
-    <div  class="flex gap-4 items-center w-[80%] lg:w-[50%] mx-auto">
-      <h1 title="home" routerLink="/" class=" text-fuchsia-200 text-lg font-jetbrains  cursor-pointer">Scrabbi</h1>
+    <div class="flex gap-4 items-center w-[80%] lg:w-[50%] mx-auto">
+      <h1
+        title="home"
+        routerLink="/"
+        class="text-fuchsia-200 text-lg font-jetbrains cursor-pointer"
+      >
+        Scrabbi
+      </h1>
 
       <div class="flex items-baseline gap-4">
         <div
           title="leaderboard"
           routerLink="leaderboard"
-   
           class="active:scale-110 cursor-pointer"
         >
-        <fa-icon
-        [icon]="faCrown"
-        class="text-fuchsia-400  text-[17px]"
-      ></fa-icon>
+          <fa-icon
+            [icon]="faCrown"
+            class="text-fuchsia-400 text-[17px]"
+          ></fa-icon>
         </div>
         <div
           title="word of the day"
@@ -27,7 +32,7 @@
         >
           <fa-icon
             [icon]="faBook"
-            class="text-fuchsia-400  text-[16px]"
+            class="text-fuchsia-400 text-[16px]"
           ></fa-icon>
         </div>
         <div
@@ -37,38 +42,45 @@
         >
           <fa-icon
             [icon]="faInfo"
-            class="text-fuchsia-400  text-[18px]"
+            class="text-fuchsia-400 text-[18px]"
           ></fa-icon>
         </div>
-       
       </div>
-      <div 
-   
-     
-     
-      class="w-[100%] flex justify-end gap-10"
-    > 
+      <div class="w-[100%] flex justify-end gap-10">
+        <div
+          *ngIf="checkLocalHost()"
+          routerLink="profile"
+          class="group cursor-pointer flex items-end gap-2"
+        >
+          <fa-icon
+            title="profile"
+            [icon]="faUser"
+            class="text-fuchsia-500/50 group-hover:text-fuchsia-500 text-[15px]"
+          ></fa-icon>
+          <div class="flex items-center gap-1">
+            <h1
+              class="text-fuchsia-300/50 font-jetbrains font-bold text-sm group-hover:text-fuchsia-300"
+            >
+              {{ userInfo?.username }}
+            </h1>
+            <div
+              class="grid place-items-center px-1 h-4 group-hover:bg-fuchsia-100 bg-fuchsia-500/50 rounded-md"
+            >
+              <h1 class="text-[11px] font-jetbrains font-bold">105</h1>
+            </div>
+          </div>
+        </div>
 
-      <fa-icon
-      *ngIf="checkLocalHost()"
-      title="profile"
-      routerLink="profile"
-        [icon]="faUser"
-        class="text-fuchsia-500 cursor-pointer text-[18px]"
-      ></fa-icon>
-      <fa-icon
-      routerLink="login"
-      title="login"
-      *ngIf="checkLocalHost()"
-       (click)="logout()"
-        [icon]="faLogout"
-        class="text-fuchsia-500 cursor-pointer text-[18px]"
-      ></fa-icon>
+        <fa-icon
+          title="logout"
+          *ngIf="checkLocalHost()"
+          (click)="logout()"
+          [icon]="faLogout"
+          class="text-fuchsia-500 cursor-pointer text-[18px]"
+        ></fa-icon>
+      </div>
     </div>
-    </div>
-    
   </div>
- 
 
   <router-outlet></router-outlet>
 </div>
