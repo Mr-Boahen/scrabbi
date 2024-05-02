@@ -5,7 +5,6 @@ import { DatabaseService } from '../services/database.service';
 import { LocalStorageService } from '../services/local-storage.service';
 import { Router, RouterModule } from '@angular/router';
 import { animate, style, transition, trigger } from '@angular/animations';
-import { error } from 'console';
 import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 

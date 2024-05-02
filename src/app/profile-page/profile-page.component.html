@@ -1,40 +1,44 @@
+
+<app-avatar-select (onToggleAvatars)="toggleAvatars(false)" *ngIf="showAvatars" ></app-avatar-select>
+
 <div class="absolute top-[10%] z-50 w-[100%] h-[90vh] flex justify-center">
   <div
     class="bg-fuchsia-300/10 p-10 flex flex-col gap-5 w-[80%] lg:w-[50%] mx-auto h-[90%] rounded-lg"
   >
-    <div class="h-52 w-full p-5 rounded-lg bg-fuchsia-300/10 flex gap-4">
+    <div class="h-52 w-full rounded-lg  flex flex-col lg:flex-row  gap-4">
       <div
-        class="h-full w-[280px] flex items-center shadow-xl shrink-0 border border-fuchsia-300/20 bg-fuchsia-400/10 rounded-md p-4"
+        class="lg:h-full lg:w-[280px] flex items-center shadow-xl shrink-0 border border-fuchsia-300/20 bg-fuchsia-400/10 rounded-md p-4"
       >
         <div class="flex items-center gap-5 w-full">
           <div
             *ngIf="userInfo.avatar == ''"
             title="edit"
-            class="h-16 w-16 rounded-full bg-black/30 border border-fuchsia-300/30 shadow-inner"
+            class="h-16 w-16 rounded-full bg-black/30 border border-fuchsia-300/30 shrink-0"
           >
             <div class="relative">
               <fa-icon
-                class="absolute top-0 left-[14px] text-black/30 text-2xl"
+                class="absolute top-0 left-[12px] text-black/30 text-[45px]"
                 [icon]="faUser"
               ></fa-icon>
-              <input
+              <div
                 accept="image/*"
-                (change)="handleAvatarUpload($event)"
+               (click)="showAvatars=true"
                 type="file"
-                class="absolute z-10 opacity-0 h-16 w-16 bg-red-400 rounded-full"
-              />
+                class="absolute cursor-pointer z-10 opacity-0 h-16 w-16 bg-red-400 rounded-full"
+              ></div>
             </div>
           </div>
+          
           <div
+          (click)="showAvatars=true"
+            [innerHTML]="avatar"
             *ngIf="userInfo.avatar"
             title="avatar"
-            class="h-16 w-16 rounded-full bg-black/30 border border-fuchsia-300/30"
+            id="avatarContainer"
+            class="h-16 w-16 rounded-full  border-fuchsia-300/30"
           >
-            <img
-              class="h-16 w-16 object-cover rounded-full"
-              src="data:image/png;base64,{{ userInfo.avatar }}"
-              alt="avatar"
-            />
+            <!-- the Avatar goes here -->
+
           </div>
           <div>
             <h1 class="text-xl font-jetbrains font-bold text-fuchsia-300">
@@ -49,7 +53,7 @@
         </div>
       </div>
       <div
-        class="h-full w-[100%] text-white shadow-xl flex border border-fuchsia-300/10 bg-fuchsia-300/10 rounded-md flex-wrap items-center justify-around"
+        class="h-full lg:w-[100%] text-white shadow-xl p-3 flex border border-fuchsia-300/10 bg-fuchsia-300/10 rounded-md flex-wrap items-center gap-5  lg:justify-around"
       >
         <div
           class="bg-black/20 w-20 border border-fuchsia-300/30 h-20 rounded-lg px-2 flex flex-col gap-2 pt-1"

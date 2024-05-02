@@ -24,6 +24,7 @@ import {
 import { LocalStorageService } from './services/local-storage.service';
 import { User } from './leader-board-page/leader-board-page.component';
 import { DatabaseService } from './services/database.service';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 const fadeTrans = transition(':enter', [
   style({
@@ -55,14 +56,16 @@ export class AppComponent {
   faUser = faUser;
   faLogout = faArrowRightFromBracket;
 
-  userInfo: any;
+  userInfo !: User;
+  avatar!:SafeHtml
 
   constructor(
     private cdr:ChangeDetectorRef,
     private router: Router,
     private wod: WordOfTheDayServiceService,
     private localStorage: LocalStorageService,
-    private database:DatabaseService
+    private database:DatabaseService,
+    private sanitizer:DomSanitizer
   ) {
   
     if (!localStorage.getItem('userDetails')) {
@@ -72,6 +75,12 @@ export class AppComponent {
     if (userDetailsString !== null) {
       const userDetails: User = JSON.parse(userDetailsString);
       this.userInfo = userDetails;
+
+      console.log(this.userInfo.avatar.includes('width="100"'))
+      this.userInfo.avatar=this.userInfo.avatar.replace('width="60"','width="40"')
+      this.userInfo.avatar=this.userInfo.avatar.replace('height="60"','height="40"')
+      this.avatar = this.sanitizer.bypassSecurityTrustHtml(this.userInfo.avatar) ;
+
     } else {
       this.database.getUserProfile()?.subscribe((data: any) => {
         this.localStorage.setItem('userDetails', JSON.stringify(data));

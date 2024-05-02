@@ -75,11 +75,10 @@ export class DatabaseService {
   }
 
   updateAvatar(data: any): any {
-   
     const userDetailsString = this.localStorage.getItem('userDetails');
     if (userDetailsString !== null) {
       const userDetails = JSON.parse(userDetailsString);
-      return this.http.put(
+      return this.http.post(
         `${environment.databaseUrl}/updateAvatar`,
         data,
         {

@@ -8,6 +8,7 @@ import { DatabaseService } from '../services/database.service';
 import { Router } from '@angular/router';
 
 export interface User {
+  avatar:string,
   _id: string;
   username: string;
   highestScore: number;

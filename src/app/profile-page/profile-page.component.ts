@@ -1,12 +1,14 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faCrown, faUser } from '@fortawesome/free-solid-svg-icons';
 import { LocalStorageService } from '../services/local-storage.service';
 import { DatabaseService } from '../services/database.service';
 import { Router } from '@angular/router';
-
+import { AvatarSelectComponent } from '../avatar-select/avatar-select.component';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 export interface User {
+  avatar: string;
   id: number;
   username: string;
   highestScore: number;
@@ -39,20 +41,23 @@ export interface Game {
   selector: 'app-profile-page',
   standalone: true,
   providers: [DatePipe],
-  imports: [CommonModule, FontAwesomeModule],
+  imports: [CommonModule, FontAwesomeModule, AvatarSelectComponent],
   templateUrl: './profile-page.component.html',
   styleUrl: './profile-page.component.css',
 })
-export class ProfilePageComponent {
+export class ProfilePageComponent  {
   faUser = faUser;
   usersRanked: [User] | undefined;
   faCrown = faCrown;
   username: string = '';
 
+  showAvatars = false;
+
   avatar_base64: string | null = null;
   timeSpentGaming: string = '';
   JoinedAt: string | null = '';
 
+  avatar!:SafeHtml;
   userInfo: any = {};
   gameHistory: [Game] | undefined;
 
@@ -60,11 +65,14 @@ export class ProfilePageComponent {
     private localStorage: LocalStorageService,
     private database: DatabaseService,
     private datePipe: DatePipe,
-    private router:Router
+    private router: Router,
+    private sanitizer:DomSanitizer
   ) {
+
     const userDetailsString = this.localStorage.getItem('userDetails');
     if (userDetailsString !== null) {
       const userDetails: User = JSON.parse(userDetailsString);
+      this.avatar = this.sanitizer.bypassSecurityTrustHtml(userDetails.avatar) ;
       this.userInfo = userDetails;
       this.gameHistory = userDetails.gameHistory;
       const createdAt = new Date(userDetails.createdAt);
@@ -91,43 +99,27 @@ export class ProfilePageComponent {
     }
   }
 
-  handleAvatarUpload(event: Event) {
-    const target = event.target as HTMLInputElement;
-    const file: File | null = (target.files && target.files[0]) || null;
+ 
 
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        if (typeof reader.result === 'string') {
-          this.avatar_base64 = reader.result.split(',')[1];
-          this.database
-            .updateAvatar({ avatar: this.avatar_base64 })
-            .subscribe((data: any) => {
-              this.localStorage.setItem('userDetails', JSON.stringify(data));
-              this.router.navigate(['profile'])
-            });
-        }
-      };
-      reader.readAsDataURL(file);
-    }
+  toggleAvatars(boolean: boolean) {
+    this.showAvatars = boolean;
+    window.location.reload()
   }
+
   getRoundedValue(number: number) {
     return Number(number.toPrecision(4));
   }
 
-  checkHighestGame(score:number){
-    return this.userInfo.gameHistory.some(
-      (game:Game) => {
-        return score<game.score ;
-      }
-    );
+  checkHighestGame(score: number) {
+    return this.userInfo.gameHistory.some((game: Game) => {
+      return score < game.score;
+    });
   }
   formattTimestamp(timestamp: Date, date?: string) {
     const createdAt = new Date(timestamp);
     if (date) {
       return this.datePipe.transform(createdAt, 'MMMM d,y');
-    }
-    else{
+    } else {
       return this.datePipe.transform(createdAt, 'hh:mm a');
     }
   }

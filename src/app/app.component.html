@@ -5,7 +5,7 @@
     alt="background-image"
   />
   <div class="relative top-10 z-20 w-[100%] flex items-center">
-    <div class="flex gap-4 items-center w-[80%] lg:w-[50%] mx-auto">
+    <div class="flex gap-4 items-center   w-[80%] lg:w-[50%] mx-auto">
       <h1
         title="home"
         routerLink="/"
@@ -50,18 +50,16 @@
         <div
           *ngIf="checkLocalHost()"
           routerLink="profile"
-          class="group cursor-pointer flex items-end gap-2"
+          class="group cursor-pointer flex  gap-2"
         >
-          <fa-icon
-            title="profile"
-            [icon]="faUser"
-            class="text-fuchsia-500/50 group-hover:text-fuchsia-500 text-[15px]"
-          ></fa-icon>
+          <div [innerHTML]="avatar" id="miniAvatarContainer">
+            <!-- Mini avatar goes here -->
+          </div>
           <div class="flex items-center gap-1">
             <h1
-              class="text-fuchsia-300/50 font-jetbrains font-bold text-sm group-hover:text-fuchsia-300"
+              class="text-fuchsia-300/50 font-jetbrains font-bold text-base group-hover:text-fuchsia-300"
             >
-              {{ userInfo?.username }}
+              {{ userInfo.username }}
             </h1>
             <div
               class="grid place-items-center px-1 h-4 group-hover:bg-fuchsia-100 bg-fuchsia-500/50 rounded-md"
@@ -76,7 +74,7 @@
           *ngIf="checkLocalHost()"
           (click)="logout()"
           [icon]="faLogout"
-          class="text-fuchsia-500 cursor-pointer text-[18px]"
+          class="text-fuchsia-500 cursor-pointer mt-[5px] text-[18px]"
         ></fa-icon>
       </div>
     </div>
