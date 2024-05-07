@@ -1,4 +1,5 @@
-<div
+<dialog
+  id="avatar-modal"
   class="fixed top-0 z-[100] h-[100vh] w-[100vw] bg-black/50 grid place-items-center"
 >
   <div>
@@ -13,9 +14,26 @@
         </div>
         <button (click)="saveAvatar()"  class="text-purple-950 font-bold border border-fuchsia-400/30 bg-fuchsia-300 font-jetbrains  mr-8 px-4 text-base rounded-md hover:bg-white active:scale-95 transition-all duration-100 ease-in-out  ">Save</button>
       </div>
-    <div class="relative bg-black  overflow-scroll p-5 rounded-lg">
+    <div  class="relative bg-black  overflow-scroll p-5 rounded-lg">
   
         <div class="flex flex-wrap w-[50vw] h-[50vh] gap-5 justify-center">
+          <div
+          (click)="selectAvatar($event)"
+          [ngClass]="{'h-14 w-14 rounded-xl border-2 border-fuchsia-900/80 shrink-0': true, 'bg-black':selectedAvatar,'bg-fuchsia-500/20':!selectedAvatar}"
+          >
+            <div class="relative">
+              <fa-icon
+                class="absolute top-0 left-[12px] text-fuchsia-300/30 text-[35px]"
+                [icon]="faUser"
+              ></fa-icon>
+              <div
+                accept="image/*"
+                (click)="showAvatars = true"
+                type="file"
+                class="absolute cursor-pointer z-10 opacity-0 h-16 w-16 bg-red-400 rounded-full"
+              ></div>
+            </div>
+          </div>
           <svg
             viewBox="0 0 36 36"
             fill="none"
@@ -5484,4 +5502,4 @@
         </div>
       </div>
   </div>
-</div>
+</dialog>

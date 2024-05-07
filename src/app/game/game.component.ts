@@ -195,7 +195,7 @@ export class GameComponent implements OnInit {
             highestTimestamp: `${this.datePipe.transform(
               new Date(Date.now()),
               'shortDate'
-            )}&${this.datePipe.transform(new Date(Date.now()), 'shortTime')}`,
+            )}&${this.datePipe.transform(new Date(Date.now()), 'shortDate')}`,
             gameTime: this.selectedTime,
             timestamp: Date.now(),
           })

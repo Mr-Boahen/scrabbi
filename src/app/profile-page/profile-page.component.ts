@@ -1,5 +1,5 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faCrown, faUser } from '@fortawesome/free-solid-svg-icons';
 import { LocalStorageService } from '../services/local-storage.service';
@@ -45,7 +45,7 @@ export interface Game {
   templateUrl: './profile-page.component.html',
   styleUrl: './profile-page.component.css',
 })
-export class ProfilePageComponent  {
+export class ProfilePageComponent {
   faUser = faUser;
   usersRanked: [User] | undefined;
   faCrown = faCrown;
@@ -57,7 +57,7 @@ export class ProfilePageComponent  {
   timeSpentGaming: string = '';
   JoinedAt: string | null = '';
 
-  avatar!:SafeHtml;
+  avatar!: SafeHtml;
   userInfo: any = {};
   gameHistory: [Game] | undefined;
 
@@ -66,13 +66,12 @@ export class ProfilePageComponent  {
     private database: DatabaseService,
     private datePipe: DatePipe,
     private router: Router,
-    private sanitizer:DomSanitizer
+    private sanitizer: DomSanitizer
   ) {
-
     const userDetailsString = this.localStorage.getItem('userDetails');
     if (userDetailsString !== null) {
       const userDetails: User = JSON.parse(userDetailsString);
-      this.avatar = this.sanitizer.bypassSecurityTrustHtml(userDetails.avatar) ;
+      this.avatar = this.sanitizer.bypassSecurityTrustHtml(userDetails.avatar);
       this.userInfo = userDetails;
       this.gameHistory = userDetails.gameHistory;
       const createdAt = new Date(userDetails.createdAt);
@@ -99,11 +98,16 @@ export class ProfilePageComponent  {
     }
   }
 
- 
+  @HostListener('window:click', ['$event']) onClick(event: MouseEvent) {
+    const avatarModal = document.getElementById('avatar-modal');
+    if(this.showAvatars){
+      if(event.target==avatarModal)this.showAvatars=false
+    }
+  }
 
-  toggleAvatars(boolean: boolean) {
-    this.showAvatars = boolean;
-    window.location.reload()
+  toggleAvatars(array: [string, boolean]) {
+    this.showAvatars = array[1];
+    if (array[0]) window.location.reload();
   }
 
   getRoundedValue(number: number) {

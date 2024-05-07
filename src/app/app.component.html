@@ -4,12 +4,17 @@
     src="../assets/scrabbi background00086400.png"
     alt="background-image"
   />
+  <div [style.width.%]="elementWidth" class=" fixed h-1  bg-fuchsia-800 transition-all duration-150 ease-in-out">
+  
+
+  </div>
   <div class="relative top-10 z-20 w-[100%] flex items-center">
+    
     <div class="flex gap-4 items-center   w-[80%] lg:w-[50%] mx-auto">
       <h1
         title="home"
         routerLink="/"
-        class="text-fuchsia-200 text-lg font-jetbrains cursor-pointer"
+        class="text-fuchsia-200 font-bold text-lg font-jetbrains cursor-pointer"
       >
         Scrabbi
       </h1>
@@ -50,16 +55,17 @@
         <div
           *ngIf="checkLocalHost()"
           routerLink="profile"
-          class="group cursor-pointer flex  gap-2"
+          class="group cursor-pointer border-2 border-fuchsia-800/10 rounded-lg  pr-2 flex  gap-2 hover:bg-fuchsia-400/10"
         >
           <div [innerHTML]="avatar" id="miniAvatarContainer">
             <!-- Mini avatar goes here -->
           </div>
           <div class="flex items-center gap-1">
             <h1
-              class="text-fuchsia-300/50 font-jetbrains font-bold text-base group-hover:text-fuchsia-300"
+              class="text-fuchsia-300 group-hover:text-white font-jetbrains font-bold text-base "
             >
               {{ userInfo.username }}
+
             </h1>
             <div
               class="grid place-items-center px-1 h-4 group-hover:bg-fuchsia-100 bg-fuchsia-500/50 rounded-md"
@@ -74,7 +80,7 @@
           *ngIf="checkLocalHost()"
           (click)="logout()"
           [icon]="faLogout"
-          class="text-fuchsia-500 cursor-pointer mt-[5px] text-[18px]"
+          class="text-fuchsia-500 hover:text-white cursor-pointer  text-[18px] transition-all duration-100 border-2 border-fuchsia-800/10 hover:bg-fuchsia-400/10 rounded-lg  px-3 py-2 ease-in-out"
         ></fa-icon>
       </div>
     </div>

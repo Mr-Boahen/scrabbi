@@ -1,44 +1,41 @@
-
-<app-avatar-select (onToggleAvatars)="toggleAvatars(false)" *ngIf="showAvatars" ></app-avatar-select>
+<app-avatar-select
+  (onToggleAvatars)="toggleAvatars($event)"
+  *ngIf="showAvatars"
+></app-avatar-select>
 
 <div class="absolute top-[10%] z-50 w-[100%] h-[90vh] flex justify-center">
   <div
     class="bg-fuchsia-300/10 p-10 flex flex-col gap-5 w-[80%] lg:w-[50%] mx-auto h-[90%] rounded-lg"
   >
-    <div class="h-52 w-full rounded-lg  flex flex-col lg:flex-row  gap-4">
+    <div class="h-52 w-full rounded-lg flex flex-col gap-4">
       <div
-        class="lg:h-full lg:w-[280px] flex items-center shadow-xl shrink-0 border border-fuchsia-300/20 bg-fuchsia-400/10 rounded-md p-4"
+        class="flex items-center shadow-xl shrink-0 border border-fuchsia-300/20 bg-fuchsia-400/10 rounded-md p-4"
       >
         <div class="flex items-center gap-5 w-full">
           <div
+            id="edit-avatar"
+            (click)="showAvatars = true"
             *ngIf="userInfo.avatar == ''"
             title="edit"
-            class="h-16 w-16 rounded-full bg-black/30 border border-fuchsia-300/30 shrink-0"
+            class="h-16 w-16 cursor-pointer rounded-xl bg-black/30 border border-fuchsia-300/30 shrink-0"
           >
             <div class="relative">
               <fa-icon
                 class="absolute top-0 left-[12px] text-black/30 text-[45px]"
                 [icon]="faUser"
               ></fa-icon>
-              <div
-                accept="image/*"
-               (click)="showAvatars=true"
-                type="file"
-                class="absolute cursor-pointer z-10 opacity-0 h-16 w-16 bg-red-400 rounded-full"
-              ></div>
             </div>
           </div>
-          
+
           <div
-          (click)="showAvatars=true"
+            (click)="showAvatars = true"
             [innerHTML]="avatar"
             *ngIf="userInfo.avatar"
             title="avatar"
             id="avatarContainer"
-            class="h-16 w-16 rounded-full  border-fuchsia-300/30"
+            class="h-16 w-16 rounded-full border-fuchsia-300/30"
           >
             <!-- the Avatar goes here -->
-
           </div>
           <div>
             <h1 class="text-xl font-jetbrains font-bold text-fuchsia-300">
@@ -53,7 +50,7 @@
         </div>
       </div>
       <div
-        class="h-full lg:w-[100%] text-white shadow-xl p-3 flex border border-fuchsia-300/10 bg-fuchsia-300/10 rounded-md flex-wrap items-center gap-5  lg:justify-around"
+        class="h-full text-white shadow-xl p-3 flex border border-fuchsia-300/10 bg-fuchsia-300/10 rounded-md flex-wrap items-center gap-5"
       >
         <div
           class="bg-black/20 w-20 border border-fuchsia-300/30 h-20 rounded-lg px-2 flex flex-col gap-2 pt-1"
@@ -89,82 +86,84 @@
         </div>
       </div>
     </div>
-   <div class="game-history shadow-inner bg-black/20 border border-fuchsia-300/10  p-4 h-[80%] overflow-y-scroll snap-y snap-mandatory scroll-smooth rounded-lg">
-    <table class="w-full border-separate border-spacing-y-2">
-      <thead>
-        <tr class="text-[13px] font-jetbrains text-gray-600 font-bold">
-          <td class="w-10 pl-4">#</td>
-          <td class="text-left pl-4  sm:pr-0">
-            <h1 class="text-gray-200">score</h1>
-            <h1 class="text-[10px]">word-count</h1>
-          </td>
-          <td class="text-center hidden sm:table-cell">
-            <h1 class="text-gray-200">wpm</h1>
-            <h1 class="text-[10px]">accuracy</h1>
-          </td>
-         
-          <td class="text-right pr-4 hidden sm:table-cell">
-            <h1 class="text-gray-200">date</h1>
-            <h1 class="text-[10px]">time</h1>
-          </td>
-        </tr>
-      </thead>
-      <tbody>
-        <tr
-          *ngFor="let game of gameHistory; let i = index"
-          class="text-gray-200 text-sm rounded-lg overflow-hidden font-bold px-3 h-12 font-jetbrains"
-        >
-        <td
-        *ngIf="checkHighestGame(game.score)"
-          class="text-[12px] bg-fuchsia-500/10 shadow-md rounded-l-md pl-4"
-        >
-          {{ i + 1 }}
-        </td>
-        <td
-        *ngIf="!checkHighestGame(game.score)"
-          class=" bg-fuchsia-500/10 shadow-md rounded-l-md pl-4"
-        >
-        <fa-icon
-        [icon]="faCrown"
-        class="text-fuchsia-300  text-[13px]"
-      ></fa-icon>
-        </td>
-         
-         <td
-            class="text-[12px] pl-4 text-left bg-fuchsia-500/10 shadow-md pr-4 rounded-r-md sm:rounded-none sm:pr-0"
-          >
-            <h2 class="text-[10px]">{{ game.score }}</h2>
-            <h2 class="text-[10px] text-gray-400">
-              {{ game.wordCount }}
-            </h2>
-          </td>
-          <td
-            class="text-[12px] text-center bg-fuchsia-500/10 shadow-md hidden sm:table-cell"
-          >
-            <h2>{{game.wordCount/(game.gameTime/60)}}</h2>
-            <h2 class="text-[10px] text-gray-400">
-               {{getRoundedValue((game.wordCount/game.totalNumberOfWords)*100)}}%
-              </h2>
-          </td>
-        
-          <td
-            class="text-[12px] text-right rounded-r-md  pr-4 bg-fuchsia-500/10 shadow-md hidden sm:table-cell"
-          >
-            <h2 class="text-[10px]">
-              {{
-                formattTimestamp(game.timestamp,"date")
-              }}
-            </h2>
+    <div
+      class="game-history shadow-inner bg-black/20 border border-fuchsia-300/10 p-4 h-[80%] overflow-y-scroll snap-y snap-mandatory scroll-smooth rounded-lg"
+    >
+      <table class="w-full border-separate border-spacing-y-2">
+        <thead>
+          <tr class="text-[13px] font-jetbrains text-white/30 font-bold">
+            <td class="w-10 pl-4">#</td>
+            <td class="text-left pl-4 sm:pr-0">
+              <h1 class="text-gray-200">score</h1>
+              <h1 class="text-[10px]">word-count</h1>
+            </td>
+            <td class="text-center hidden sm:table-cell">
+              <h1 class="text-gray-200">wpm</h1>
+              <h1 class="text-[10px]">accuracy</h1>
+            </td>
 
-            <h2 class="text-[10px] text-gray-400">
-              {{
-                formattTimestamp(game.timestamp)
-              }}
-            </h2>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-   </div>
+            <td class="text-right pr-4 hidden sm:table-cell">
+              <h1 class="text-gray-200">date</h1>
+              <h1 class="text-[10px]">time</h1>
+            </td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let game of gameHistory; let i = index"
+            class="text-gray-200 text-sm rounded-lg overflow-hidden font-bold px-3 h-12 font-jetbrains"
+          >
+            <td
+              *ngIf="checkHighestGame(game.score)"
+              class="text-[12px] bg-fuchsia-500/10 shadow-md rounded-l-md pl-4"
+            >
+              {{ i + 1 }}
+            </td>
+            <td
+              *ngIf="!checkHighestGame(game.score)"
+              class="bg-fuchsia-500/10 shadow-md rounded-l-md pl-4"
+            >
+              <fa-icon
+                [icon]="faCrown"
+                class="text-fuchsia-300 text-[13px]"
+              ></fa-icon>
+            </td>
+
+            <td
+              class="text-[12px] pl-4 text-left bg-fuchsia-500/10 shadow-md pr-4 rounded-r-md sm:rounded-none sm:pr-0"
+            >
+              <h2 class="text-[10px]">{{ game.score }}</h2>
+              <h2 class="text-[10px] text-gray-400">
+                {{ game.wordCount }}
+              </h2>
+            </td>
+            <td
+              class="text-[12px] text-center bg-fuchsia-500/10 shadow-md hidden sm:table-cell"
+            >
+              <h2>{{ game.wordCount / (game.gameTime / 60) }}</h2>
+              <h2 class="text-[10px] text-gray-400">
+                {{
+                  getRoundedValue(
+                    (game.wordCount / game.totalNumberOfWords) * 100
+                  )
+                }}%
+              </h2>
+            </td>
+
+            <td
+              class="text-[12px] text-right rounded-r-md pr-4 bg-fuchsia-500/10 shadow-md hidden sm:table-cell"
+            >
+              <h2 class="text-[10px]">
+                {{ formattTimestamp(game.timestamp, "date") }}
+              </h2>
+
+              <h2 class="text-[10px] text-gray-400">
+                {{ formattTimestamp(game.timestamp) }}
+              </h2>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>

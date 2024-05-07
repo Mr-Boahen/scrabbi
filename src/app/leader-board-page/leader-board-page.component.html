@@ -3,7 +3,7 @@
     class="bg-fuchsia-300/10 p-10 text-black w-[80%] lg:w-[50%] mx-auto h-[90%] rounded-lg"
   >
     <div class="grid grid-rows-2 grid-cols-2">
-      <div class="col-span-2 ">
+      <div class="col-span-2">
         <div>
           <h1 class="text-lg font-jetbrains text-white">
             All-Time English Leaderboards
@@ -11,13 +11,30 @@
         </div>
         <div class="flex gap-5 w-fit h-fit mt-3">
           <div
-            class="cursor-pointer bg-fuchsia-300 text-center h-8 w-28 grid place-items-center rounded-lg font-jetbrains hover:bg-gray-200 duration-200 ease-in-out"
+            (click)="showDailyRanked = false"
+            [ngClass]="{
+              'cursor-pointer': true,
+              'bg-fuchsia-300': showDailyRanked, 
+              'bg-white': !showDailyRanked, 
+              'text-center': true,
+              'h-8 w-28': true,
+              'grid place-items-center rounded-lg font-jetbrains': true,
+              'hover:bg-gray-200 duration-200 ease-in-out': true
+            }"
           >
             <h1>all-time</h1>
           </div>
           <div
-            class="cursor-pointer bg-fuchsia-300 text-center h-8 w-28 grid place-items-center rounded-lg font-jetbrains hover:bg-gray-200 duration-200 ease-in-out"
-          >
+            (click)="showDailyRanked = true"
+            [ngClass]="{
+              'cursor-pointer': true,
+              'bg-fuchsia-300': !showDailyRanked, 
+              'bg-white': showDailyRanked, 
+              'text-center': true,
+              'h-8 w-28': true,
+              'grid place-items-center rounded-lg font-jetbrains': true,
+              'hover:bg-gray-200 duration-200 ease-in-out': true
+            }"          >
             <h1>daily</h1>
           </div>
         </div>
@@ -44,38 +61,56 @@
           </thead>
           <tbody>
             <tr
-              *ngFor="let user of usersRanked; let i = index"
+              *ngFor="
+                let user of showDailyRanked ? dailyUsersRanked : usersRanked;
+                let i = index
+              "
               class="text-gray-200 text-sm rounded-lg overflow-hidden font-bold px-3 h-12 font-jetbrains"
             >
               <td
-              *ngIf="i+1!=1"
+                *ngIf="i + 1 != 1"
                 class="text-[12px] bg-fuchsia-500/10 shadow-md rounded-l-md pl-4"
               >
                 {{ i + 1 }}
               </td>
               <td
-              *ngIf="i+1==1"
-                class=" bg-fuchsia-500/10 shadow-md rounded-l-md pl-4"
+                *ngIf="i + 1 == 1"
+                class="bg-fuchsia-500/10 shadow-md rounded-l-md pl-4"
               >
-              <fa-icon
-              [icon]="faCrown"
-              class="text-fuchsia-300  text-[13px]"
-            ></fa-icon>
+                <fa-icon
+                  [icon]="faCrown"
+                  class="text-fuchsia-300 text-[13px]"
+                ></fa-icon>
               </td>
-           
-              <td class="w-[40%]  text-[12px] bg-fuchsia-500/10 shadow-md">
-                <div class="flex gap-2">
-                    <h2 class="cursor-pointer">{{ user.username }}</h2>
-                <fa-icon *ngIf="user._id==userID" class="text-fuchsia-400/50" [icon]="faUser"></fa-icon>
+
+              <td class="w-[40%] bg-fuchsia-500/10 shadow-md">
+                <div class="flex gap-2 items-center">
+                  <div [innerHTML]="avatarsRanked[i]"></div>
+                  <h2 class="cursor-pointer font-bold text-sm">
+                    {{ user.username }}
+                  </h2>
+                  <fa-icon
+                    *ngIf="user._id == userID"
+                    class="text-fuchsia-400/50"
+                    [icon]="faUser"
+                  ></fa-icon>
                 </div>
               </td>
               <td
                 class="text-[12px] text-right bg-fuchsia-500/10 shadow-md hidden sm:table-cell"
               >
-                <h2>{{user.highestWordCount/(user.gameTimeAtHighest/60)}}</h2>
+                <h2>
+                  {{ user.highestWordCount / (user.gameTimeAtHighest / 60) }}
+                </h2>
                 <h2 class="text-[10px] text-gray-400">
-                   {{getRoundedValue((user.highestWordCount/user.totalNumberOfWordsAtHighest)*100)}}%
-                  </h2>
+                  {{
+                    getRoundedValue(
+                      (user.highestWordCount /
+                        user.totalNumberOfWordsAtHighest) *
+                        100
+                    )
+                  }}%
+                </h2>
               </td>
               <td
                 class="text-[12px] text-right bg-fuchsia-500/10 shadow-md pr-4 rounded-r-md sm:rounded-none sm:pr-0"
@@ -86,7 +121,7 @@
                 </h2>
               </td>
               <td
-                class="text-[12px] text-right rounded-r-md  pr-4 bg-fuchsia-500/10 shadow-md hidden sm:table-cell"
+                class="text-[12px] text-right rounded-r-md pr-4 bg-fuchsia-500/10 shadow-md hidden sm:table-cell"
               >
                 <h2 class="text-[10px]">
                   {{

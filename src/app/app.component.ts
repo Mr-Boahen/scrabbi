@@ -1,11 +1,14 @@
-import { Component,ChangeDetectorRef,OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component,ChangeDetectorRef,OnInit, AfterViewInit, ViewChild, HostListener } from '@angular/core';
+import { NavigationStart, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { Router } from '@angular/router';
+import { Router,ActivatedRoute,NavigationEnd } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { WordOfTheDayServiceService } from './services/word-of-the-day-service.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { filter } from 'rxjs';
+
+
 import {
   faArrowRightFromBracket,
   faBook,
@@ -20,7 +23,7 @@ import {
   animate,
   transition,
   // ...
-} from '@angular/animations';
+} from  '@angular/animations';
 import { LocalStorageService } from './services/local-storage.service';
 import { User } from './leader-board-page/leader-board-page.component';
 import { DatabaseService } from './services/database.service';
@@ -42,6 +45,8 @@ const fadeIn = trigger('fadeIn', [fadeTrans]);
     RouterModule,
     FontAwesomeModule,
     ReactiveFormsModule,
+ 
+    
   ],
   animations: [fadeIn],
   templateUrl: './app.component.html',
@@ -59,14 +64,19 @@ export class AppComponent {
   userInfo !: User;
   avatar!:SafeHtml
 
+  elementWidth:number=0
+ 
+  
+
   constructor(
-    private cdr:ChangeDetectorRef,
+    private activatedRoute:ActivatedRoute,
     private router: Router,
-    private wod: WordOfTheDayServiceService,
     private localStorage: LocalStorageService,
     private database:DatabaseService,
-    private sanitizer:DomSanitizer
+    private sanitizer:DomSanitizer,
+   
   ) {
+   
   
     if (!localStorage.getItem('userDetails')) {
       this.router.navigate(['login']);
@@ -92,7 +102,28 @@ export class AppComponent {
   }
   
   }
-ngOnInit():void{}
+
+  
+ 
+
+ngOnInit():void{
+  this.router.events.pipe(
+    filter((event) : event is NavigationStart | NavigationEnd =>  event instanceof NavigationStart ||event instanceof NavigationEnd )
+  ).subscribe((event:NavigationStart | any) => {
+    if (event instanceof NavigationStart) {
+     this.elementWidth=0
+     setTimeout(()=>{
+         this.elementWidth=100
+     },500)
+  
+    } else if (event instanceof NavigationEnd) {
+      this.elementWidth=100
+      setTimeout(()=>{
+        this.elementWidth=0
+    },500)
+    }
+  });
+}
  
   logout(){
     this.localStorage.clear();
