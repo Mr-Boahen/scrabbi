@@ -74,6 +74,7 @@ export class GameComponent implements OnInit {
   isHighestScore: boolean = false;
   highestWordCount: number | undefined;
   highestScore: any;
+  streak!:number
   selectedTime: number = 0;
   randomTiles: string[] = [];
   correctSubmittedWords: string[] = [];
@@ -109,7 +110,7 @@ export class GameComponent implements OnInit {
     const userDetailsString = this.localStorage.getItem('userDetails');
     if (userDetailsString !== null) {
       const userDetails = JSON.parse(userDetailsString);
-
+      this.streak=userDetails.streak
       this.selectedTime =
         userDetails.gameHistory[userDetails.gameHistory.length - 1]?.gameTime ||
         30;
@@ -161,6 +162,7 @@ export class GameComponent implements OnInit {
       if (this.highestScore > this.score) {
         this.database
           .updateGameHistory({
+            streak:this.streak,
             wordCount: this.correctSubmittedWords.length,
             score: this.score,
             wordsPerMinute: 0,
@@ -181,6 +183,7 @@ export class GameComponent implements OnInit {
         console.log('eelllll');
         this.database
           .updateGameHistory({
+            streak:this.streak,
             wordCount: this.correctSubmittedWords.length,
             score: this.score,
             wordsPerMinute: 0,

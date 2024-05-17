@@ -92,5 +92,23 @@ export class DatabaseService {
       console.error('User details not found in localStorage.');
     }
   }
+  // updateStreak(data:object):any{
+  //   const userDetailsString = this.localStorage.getItem('userDetails');
+  //   if (userDetailsString !== null) {
+  //     const userDetails = JSON.parse(userDetailsString);
+  //     return this.http.post(
+  //       `${environment.databaseUrl}/updateStreak`,
+  //       data,
+  //       {
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //           Authorization: `Bearer ${userDetails.token}`,
+  //         },
+  //       }
+  //     ); // Access userDetails object
+  //   } else {
+  //     console.error('User details not found in localStorage.');
+  //   }
+  // }
   
 }

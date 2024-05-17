@@ -11,9 +11,10 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 export interface User {
   avatar: string;
   _id: string;
+  streak:number;
   username: string;
   highestScore: number;
-  gameHistory: [object];
+  gameHistory: [any];
   wordCount: number;
   score: number;
   accuracy: number;
@@ -89,7 +90,7 @@ export class LeaderBoardPageComponent implements OnInit {
       });
      
     } else {
-      this.database.getLeaderBoard().subscribe((data: any) => {
+      this.database.getLeaderBoard()?.subscribe((data: any) => {
         this.localStorage.setItem('leaderBoard', JSON.stringify(data));
         const leaderBoard = this.localStorage.getItem('leaderBoard');
         if (leaderBoard) {
@@ -113,8 +114,7 @@ export class LeaderBoardPageComponent implements OnInit {
             );
             return user;
           });
-          console.log(leaderBoard);
-          console.log('dsjaiofjoidsjioafjdshmmmmmm', this.usersRanked);
+      
         }
         const userDetailsString = this.localStorage.getItem('userDetails');
         if (userDetailsString !== null) {

@@ -11,6 +11,7 @@ export interface User {
   avatar: string;
   id: number;
   username: string;
+  streak:number;
   highestScore: number;
   gameHistory: [Game];
   wordCount: number;
