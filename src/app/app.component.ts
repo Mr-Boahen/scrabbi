@@ -63,14 +63,14 @@ export class AppComponent {
   title = 'scrabbi';
   faBook = faBook;
   faInfo = faInfo;
-  faFire=faFire
+  faFire = faFire;
   faCrown = faCrown;
   faUser = faUser;
   faLogout = faArrowRightFromBracket;
 
   userInfo!: User;
   avatar!: SafeHtml;
-  streak!:number
+  streak!: number;
 
   elementWidth: number = 0;
 
@@ -80,7 +80,8 @@ export class AppComponent {
     private localStorage: LocalStorageService,
     private database: DatabaseService,
     private sanitizer: DomSanitizer,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private wordofDayService:WordOfTheDayServiceService
   ) {
     if (!localStorage?.getItem('userDetails')) {
       this.router.navigate(['login']);
@@ -89,32 +90,34 @@ export class AppComponent {
     if (userDetailsString !== null) {
       const userDetails: User = JSON.parse(userDetailsString);
       this.userInfo = userDetails;
-      this.streak=userDetails.streak
+      this.streak = userDetails.streak;
       // const todayDate = datePipe.transform(Date.now(), 'MMMM d,y');
-   
-        const dateOfRecentGame = datePipe.transform(
-          this.userInfo.gameHistory[this.userInfo.gameHistory.length - 1]
-            ?.timestamp,
-          'MMMM d,y'
-        );
-        const dateOfBeforeRecentGame = datePipe.transform(
+
+      const dateOfRecentGame = datePipe.transform(
+        this.userInfo.gameHistory[this.userInfo.gameHistory.length - 1]
+          ?.timestamp,
+        'MMMM d,y'
+      );
+      const dateOfBeforeRecentGame =
+        datePipe.transform(
           this.userInfo.gameHistory[this.userInfo.gameHistory.length - 2]
             ?.timestamp,
           'MMMM d,y'
         ) || null;
-        if (!this.localStorage.getItem('streakUpdated')) {
-          if (dateOfBeforeRecentGame != dateOfRecentGame) {
-            this.userInfo.streak++;
-            this.streak++
-            console.log(this.userInfo);
-            this.localStorage.setItem(
-              'userDetails',
-              JSON.stringify(this.userInfo)
-            );
-            this.localStorage.setItem('streakUpdated', 'true');
-          }else this.localStorage.setItem('streakUpdated','')
-        }
+        console.log(this.wordofDayService.checkTimestampExpired())
+if(this.wordofDayService.checkTimestampExpired()==true){
+      if (dateOfBeforeRecentGame != dateOfRecentGame) {
       
+          this.userInfo.streak++;
+          this.streak++;
+          console.log(this.userInfo);
+          this.localStorage.setItem(
+            'userDetails',
+            JSON.stringify(this.userInfo)
+          );
+          this.localStorage.setItem("timeStamp",`${new Date().getDay()}`)
+        
+      }}
 
       //Changing the size of the SVG for the profile
       this.userInfo.avatar = this.userInfo.avatar.replace(

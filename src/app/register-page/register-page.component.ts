@@ -57,7 +57,9 @@ onSubmit(event:any){
     if(this.registerationForm?.valid){
       this.db.registerUser(this.registerationForm.value).subscribe((data)=>{
           this.localStorage.setItem('userDetails',JSON.stringify(data))
-          this.router.navigate([''])
+          this.router.navigate(['']).then(() => window.location.reload());
+          
+
 
       },(error)=>{
 this.errorMessage=error.error.message

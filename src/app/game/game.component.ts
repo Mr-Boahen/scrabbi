@@ -1,5 +1,5 @@
 import { Component, HostListener, Input, OnInit } from '@angular/core';
-import { Router, RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { wordDatabase } from '../wordDatabase';
@@ -20,6 +20,7 @@ import {
 } from '@angular/animations';
 import { DatabaseService } from '../services/database.service';
 import { LocalStorageService } from '../services/local-storage.service';
+import { filter, take } from 'rxjs';
 
 @Component({
   selector: 'app-game',
@@ -208,7 +209,11 @@ export class GameComponent implements OnInit {
               this.localStorage.setItem('leaderBoard', JSON.stringify(data));
               this.score=0
               this.highestScore=0
+             
               this.router.navigate(['leaderboard']);
+              this.router.events.pipe(
+                filter(event=>event instanceof NavigationEnd),take(1)
+              ).subscribe(()=>{window.location.reload()})
             });
           });
       }
