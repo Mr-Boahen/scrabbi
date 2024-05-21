@@ -19,7 +19,6 @@ export class DatabaseService {
     return this.http.post(`${environment.databaseUrl}/login`, data);
   }
   updateGameHistory(data: any): any {
-   
     const userDetailsString = this.localStorage.getItem('userDetails');
     if (userDetailsString !== null) {
       const userDetails = JSON.parse(userDetailsString);
@@ -37,40 +36,33 @@ export class DatabaseService {
       console.error('User details not found in localStorage.');
     }
   }
-  getLeaderBoard():any{
+  getLeaderBoard(): any {
     const userDetailsString = this.localStorage.getItem('userDetails');
     if (userDetailsString !== null) {
       const userDetails = JSON.parse(userDetailsString);
-      return this.http.get(
-        `${environment.databaseUrl}/getLeaderBoard`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${userDetails.token}`,
-          },
-        }
-      ); // Access userDetails object
+      return this.http.get(`${environment.databaseUrl}/getLeaderBoard`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userDetails.token}`,
+        },
+      }); // Access userDetails object
     } else {
       console.error('Could not get LeaderBoard');
     }
   }
-  getUserProfile():Observable<object> | null{
+  getUserProfile(): Observable<object> | null {
     const userDetailsString = this.localStorage.getItem('userDetails');
     if (userDetailsString !== null) {
       const userDetails = JSON.parse(userDetailsString);
-      return this.http.get(
-        `${environment.databaseUrl}/userProfile`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${userDetails.token}`,
-          },
-        }
-      ); // Access userDetails object
+      return this.http.get(`${environment.databaseUrl}/userProfile`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userDetails.token}`,
+        },
+      }); // Access userDetails object
     } else {
-
       console.error('Could not get LeaderBoard');
-      return null
+      return null;
     }
   }
 
@@ -78,16 +70,12 @@ export class DatabaseService {
     const userDetailsString = this.localStorage.getItem('userDetails');
     if (userDetailsString !== null) {
       const userDetails = JSON.parse(userDetailsString);
-      return this.http.post(
-        `${environment.databaseUrl}/updateAvatar`,
-        data,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${userDetails.token}`,
-          },
-        }
-      ); // Access userDetails object
+      return this.http.post(`${environment.databaseUrl}/updateAvatar`, data, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userDetails.token}`,
+        },
+      }); // Access userDetails object
     } else {
       console.error('User details not found in localStorage.');
     }
@@ -110,5 +98,4 @@ export class DatabaseService {
   //     console.error('User details not found in localStorage.');
   //   }
   // }
-  
 }

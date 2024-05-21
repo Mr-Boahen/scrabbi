@@ -1,0 +1,9 @@
+{
+    "/*":{
+        "target":"https://scrabbi-backend.up.railway.app/",
+        "secure":false,
+        "logLevel":"debug",
+        "changeOrigin":true
+
+    }
+}
