@@ -3,15 +3,15 @@
   *ngIf="showAvatars"
 ></app-avatar-select>
 
-<div class="absolute top-[10%] z-50 w-[100%] h-[90vh] flex justify-center">
+<div class="absolute top-[12%] z-50 w-[100%] h-[80vh] flex justify-center">
   <div
-    class="bg-fuchsia-300/10 p-10 flex flex-col gap-5 w-[80%] lg:w-[50%] mx-auto h-[90%] rounded-lg"
+    class="bg-fuchsia-300/10 p-10 flex flex-col gap-5 w-[95%] lg:w-[50%] mx-auto h-[90%] rounded-lg"
   >
     <div class="h-52 w-full rounded-lg flex flex-col gap-4">
       <div
         class="flex items-center shadow-xl shrink-0 border border-fuchsia-300/20 bg-fuchsia-400/10 rounded-md p-4"
       >
-        <div class="flex items-center gap-5 w-full">
+        <div class="flex items-center   gap-5 w-full">
           <div
             id="edit-avatar"
             (click)="showAvatars = true"
@@ -50,7 +50,7 @@
         </div>
       </div>
       <div
-        class="h-full text-white shadow-xl p-3 flex border border-fuchsia-300/10 bg-fuchsia-300/10 rounded-md flex-wrap items-center gap-5"
+        class="h-full text-white shadow-xl p-3 flex border  border-fuchsia-300/10 bg-fuchsia-300/10 rounded-md flex-wrap items-center gap-5"
       >
         <div
           class="bg-black/20 w-20 border border-fuchsia-300/30 h-20 rounded-lg px-2 flex flex-col gap-2 pt-1"
@@ -102,7 +102,7 @@
               <h1 class="text-[10px]">accuracy</h1>
             </td>
 
-            <td class="text-right pr-4 hidden sm:table-cell">
+            <td class="text-right pr-4 table-cell">
               <h1 class="text-gray-200">date</h1>
               <h1 class="text-[10px]">time</h1>
             </td>
@@ -130,7 +130,7 @@
             </td>
 
             <td
-              class="text-[12px] pl-4 text-left bg-fuchsia-500/10 shadow-md pr-4 rounded-r-md sm:rounded-none sm:pr-0"
+              class="text-[12px] pl-4 text-left bg-fuchsia-500/10 shadow-md pr-4  sm:rounded-none sm:pr-0"
             >
               <h2 class="text-[10px]">{{ game.score }}</h2>
               <h2 class="text-[10px] text-gray-400">
@@ -151,7 +151,7 @@
             </td>
 
             <td
-              class="text-[12px] text-right rounded-r-md pr-4 bg-fuchsia-500/10 shadow-md hidden sm:table-cell"
+              class="text-[12px] text-right rounded-r-md pr-4 bg-fuchsia-500/10 shadow-md table-cell"
             >
               <h2 class="text-[10px]">
                 {{ formattTimestamp(game.timestamp, "date") }}
