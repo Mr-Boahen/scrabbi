@@ -11,7 +11,7 @@ export const routes: Routes = [
   {
     path: '',
     component: GameComponent,
-    title: 'Scrabbi',
+    title: 'Scrabtype',
 
   },
   {

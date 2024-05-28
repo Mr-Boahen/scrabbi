@@ -60,7 +60,7 @@ const fadeIn = trigger('fadeIn', [fadeTrans]);
   providers: [WordOfTheDayServiceService, DatePipe],
 })
 export class AppComponent {
-  title = 'scrabbi';
+  title = 'scrabtype';
   faBook = faBook;
   faInfo = faInfo;
   faFire = faFire;
