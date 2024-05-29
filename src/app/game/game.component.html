@@ -398,12 +398,16 @@
       </div>
       <div
         *ngIf="gameHasStarted == false"
-        class="w-full flex items-center justify-center"
+        class="w-full flex flex-col gap-2 items-center justify-center"
       >
+
+      <h1 class="text-fuchsia-200/50 animate-pulse text-sm   font-jetbrains font-bold tracking-[3px] mb-1">Create 2-7 letter words</h1>
+      
+      
         <h1
           (click)="startCountdown()"
           [ngClass]="{
-            'cursor-pointer': true,
+            'cursor-pointer -mb-3': true,
             'text-lg': true,
             'font-jetbrains': true,
             'bg-fuchsia-300': true,

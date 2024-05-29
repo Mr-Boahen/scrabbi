@@ -12,19 +12,25 @@
         class="flex items-center shadow-xl shrink-0 border border-fuchsia-300/20 bg-fuchsia-400/10 rounded-md p-4"
       >
         <div class="flex items-center   gap-5 w-full">
-          <div
+         
+          <div class="relative">
+            <div
             id="edit-avatar"
-            (click)="showAvatars = true"
+           
             *ngIf="userInfo.avatar == ''"
             title="edit"
             class="h-16 w-16 cursor-pointer rounded-xl bg-black/30 border border-fuchsia-300/30 shrink-0"
           >
             <div class="relative">
               <fa-icon
-                class="absolute top-0 left-[12px] text-black/30 text-[45px]"
+                class="absolute z-10 top-0 left-[12px] text-black/30 text-[45px]"
                 [icon]="faUser"
               ></fa-icon>
             </div>
+          </div>
+          <div (click)="showAvatars=true"  class="absolute z-20 top-0 group grid place-items-center w-full h-full rounded-xl  bg-black/0 hover:bg-black/50 transition-all duration-100 ease-in-out">
+<fa-icon  [icon]="faPenToSquare" class="text-[40px] text-fuchsia-200/0 group-hover:text-fuchsia-200/80 transition-all duration-100 ease-in-out"></fa-icon>
+          </div>
           </div>
 
           <div

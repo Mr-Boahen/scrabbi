@@ -1,7 +1,7 @@
 import { CommonModule, DatePipe } from '@angular/common';
 import { Component, HostListener, OnInit } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faCrown, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faCrown, faPenToSquare, faUser } from '@fortawesome/free-solid-svg-icons';
 import { LocalStorageService } from '../services/local-storage.service';
 import { DatabaseService } from '../services/database.service';
 import { Router } from '@angular/router';
@@ -48,6 +48,7 @@ export interface Game {
 })
 export class ProfilePageComponent {
   faUser = faUser;
+  faPenToSquare=faPenToSquare;
   usersRanked: [User] | undefined;
   faCrown = faCrown;
   username: string = '';
